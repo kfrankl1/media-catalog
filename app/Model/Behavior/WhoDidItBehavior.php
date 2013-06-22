@@ -38,6 +38,7 @@ class WhoDidItBehavior extends ModelBehavior {
 	* @param array $config behavior settings you would like to override
 	* @return void
 	* @access public
+	* Causes Error: Table pages for model Page was not found in datasource default.
 	*/
 	function setup(&$model, $config = array()) {
 		//assigne default settings

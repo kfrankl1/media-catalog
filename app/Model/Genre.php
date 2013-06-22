@@ -14,7 +14,7 @@ class Genre extends AppModel {
                 'associationForeignKey'  => 'show_id',
                 'unique'                 => true,
                 'conditions'             => '',
-                'fields'                 => 'title',
+                'fields'                 => 'id',
                 'order'                  => '',
                 'limit'                  => '',
                 'offset'                 => '',

@@ -21,7 +21,7 @@ class Show extends AppModel {
                 'associationForeignKey'  => 'genre_id',
                 'unique'                 => true,
                 'conditions'             => '',
-                'fields'                 => 'title',
+                'fields'                 => 'id',
                 'order'                  => '',
                 'limit'                  => '',
                 'offset'                 => '',

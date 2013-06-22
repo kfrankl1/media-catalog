@@ -7,10 +7,9 @@
     echo $this->Form->input('tagline');
     echo $this->Form->input('description');
 	echo $this->Form->input('Genre', array(
-        'label' => __('Genre', true),
-        'type' => 'select',
-        'multiple' => 'checkbox',
-        'selected' => $this->Html->value('Genre.id'),
+        'label' => __('Genre', true)
+        ,'type' => 'select'
+        ,'multiple' => 'checkbox'
 	));
     echo $this->Form->input('id', array('type' => 'hidden'));
     echo $this->Form->end('Save Show');
