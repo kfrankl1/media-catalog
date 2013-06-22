@@ -33,43 +33,8 @@ class ShowsController extends AppController {
 	}
 	
 	public function edit($id = null) {
-		//$this->Request->Genre->find('list', array('fields' => array('id', 'title')));
-		//$this->set('genres', $this->Show->Genre->find('list'));
-		
-		/*
-		$this->data=$this->Show->findById($id);
-		$genres = $this->Show->Genre->find('list');
-		$this->set(compact('data','genres'));*/
-		
-		
-		//use this
-		$settings = $this->Genre->find('list', array(
-			'conditions' => array('Genre.title'),
-			'fields' => array('Genre.id', 'Genre.title')
-		));
-		$this->set(compact('settings'));
-		
-		/*$this->data=$this->Event->findById($id);
-		$users = $this->Event->User->find('list');
-		$this->set(compact('data','users'));*/
-		
-		
-		
-		
-	/*	//example
-		$settings = $this->Setting->find('list', array(
-			'conditions' => array('Setting.setting_name LIKE' => 'mode_%'),
-			'fields'     => array('Setting.id', 'Setting.title')
-		));
-		$this->set(compact('settings'));*/
+		$this->set('genres', $this->Show->Genre->find('list'));
 	
-	
-	
-	
-	
-	
-		
-
 		if (!$id) {
 			throw new NotFoundException(__('Invalid show'));
 		}
