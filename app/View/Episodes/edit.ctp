@@ -1,6 +1,6 @@
-<!-- File: /app/View/Shows/edit.ctp -->
+<!-- File: /app/View/Episodes/edit.ctp -->
 
-<h1>Edit Show</h1>
+<h1>Edit Episode</h1>
 <?php
 	echo $this->Form->create('Episode', array('type' => 'file'));
 	echo $this->Form->input('title');
@@ -11,6 +11,7 @@
 	//echo $this->Form->input('still_image_file', array('between' => '<br />', 'type' => 'file'));
 	//echo $this->Form->input('episode_file', array('type' => 'file'));
 	echo $this->Form->input('show_id');
+	echo $this->Form->input('season_id');
 	echo $this->Form->end('Save Episode');
 ?>
 

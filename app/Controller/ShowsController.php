@@ -21,6 +21,7 @@ class ShowsController extends AppController {
 	}
 	
 	public function add() {
+		$this->set('genres', $this->Show->Genre->find('list'));
 		if ($this->request->is('post')) {
 				$this->Show->create();
 			if ($this->Show->save($this->request->data)) {

@@ -9,6 +9,11 @@ class Episode extends AppModel {
             'className' => 'Show',
 			'foreignKey' => 'show_id',
 			'dependent' => 'true'
+		),
+        'Season' => array(
+            'className' => 'Season',
+			'foreignKey' => 'season_id',
+			'dependent' => 'false'
 		)
 	);
 	

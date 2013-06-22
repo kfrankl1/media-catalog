@@ -22,6 +22,7 @@ class EpisodesController extends AppController {
 	
 	public function add() {
 		$this->set('shows', $this->Episode->Show->find('list'));
+		$this->set('seasons', $this->Episode->Season->find('list'));
 		
 		if ($this->request->is('post')) {
 				$this->Episode->create();
@@ -36,6 +37,7 @@ class EpisodesController extends AppController {
 	
 	public function edit($id = null) {
 		$this->set('shows', $this->Episode->Show->find('list'));
+		$this->set('seasons', $this->Episode->Season->find('list'));
 		
 		if (!$id) {
 			throw new NotFoundException(__('Invalid episode'));

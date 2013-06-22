@@ -9,6 +9,7 @@
 	echo $this->Form->input('episode_number');
 	echo $this->Form->input('original_air_date');
 	echo $this->Form->input('show_id');
+	echo $this->Form->input('season_id');
 	echo $this->Form->end('Save Episode');
 ?>
 

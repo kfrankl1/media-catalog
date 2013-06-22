@@ -12,6 +12,7 @@
         <th>Title</th>
         <th>Episode Number</th>
         <th>Original Air Date</th>
+        <th>Season</th>
         <th>Show</th>
         <th>Actions</th>
         <th>Last Modified</th>
@@ -30,6 +31,7 @@
         </td>
         <td><?php echo $episode['Episode']['episode_number']; ?></td>
         <td><?php echo $episode['Episode']['original_air_date']; ?></td>
+        <td><?php echo $episode['Season']['title']; ?></td>
         <td><?php echo $episode['Show']['title']; ?></td>
         <td>
             <?php echo $this->Form->postLink(
