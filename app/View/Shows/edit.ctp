@@ -7,7 +7,7 @@
     echo $this->Form->input('tagline');
     echo $this->Form->input('description');
 	echo $this->Form->input('Genre', array(
-        'label' => __('Genre', true)
+        'label' => __('Genres', true)
         ,'type' => 'select'
         ,'multiple' => 'checkbox'
 	));

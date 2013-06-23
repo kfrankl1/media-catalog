@@ -7,7 +7,11 @@
 <p><small>Created: <?php echo $user['User']['created']; ?></small></p>
 <p><small>Last Modified: <?php echo $user['User']['modified']; ?></small></p>
 
-<?php echo $this->Html->link(
-    'Back to Users',
-    array('controller' => 'users', 'action' => 'index')
-); ?>
+
+<p><?php echo $this->Html->link('Edit', 
+	array('action' => 'edit', $user['User']['id'])); ?>
+</p>
+
+<p><?php echo $this->Html->link('Back to Users',
+    array('controller' => 'users', 'action' => 'index')); ?>
+</p>

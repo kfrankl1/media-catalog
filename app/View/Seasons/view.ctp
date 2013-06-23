@@ -5,7 +5,11 @@
 <p><small>Created: <?php echo $season['Season']['created']; ?></small></p>
 <p><small>Last Modified: <?php echo $season['Season']['modified']; ?></small></p>
 
-<?php echo $this->Html->link(
-    'Back to Seasons',
-    array('controller' => 'seasons', 'action' => 'index')
-); ?>
+
+<p><?php echo $this->Html->link('Edit', 
+	array('action' => 'edit', $season['Season']['id'])); ?>
+</p>
+
+<p><?php echo $this->Html->link('Back to Seasons',
+    array('controller' => 'seasons', 'action' => 'index')); ?>
+</p>

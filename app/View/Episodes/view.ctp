@@ -8,7 +8,11 @@
 <p><small>Created: <?php echo $episode['Episode']['created']; ?></small></p>
 <p><small>Last Modified: <?php echo $episode['Episode']['modified']; ?></small></p>
 
-<?php echo $this->Html->link(
-    'Back to Episodes',
-    array('controller' => 'episodes', 'action' => 'index')
-); ?>
+
+<p><?php echo $this->Html->link('Edit', 
+	array('action' => 'edit', $episode['Episode']['id'])); ?>
+</p>
+
+<p><?php echo $this->Html->link('Back to Episodes',
+    array('controller' => 'episodes', 'action' => 'index')); ?>
+</p>

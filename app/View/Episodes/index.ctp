@@ -9,11 +9,11 @@
     <tr>
         <th>Id</th>
         <th>Active</th>
+        <th>Show</th>
         <th>Title</th>
         <th>Episode Number</th>
         <th>Original Air Date</th>
         <th>Season</th>
-        <th>Show</th>
         <th>Actions</th>
         <th>Last Modified</th>
         <th>Modified By</th>
@@ -26,13 +26,17 @@
         <td><?php echo $episode['Episode']['id']; ?></td>
         <td><?php echo $episode['Episode']['is_active']; ?></td>
         <td>
+            <?php echo $this->Html->link($episode['Show']['title'],
+							array('controller' => 'shows', 'action' => 'view', $episode['Show']['id']));
+			?>
+        </td>
+        <td>
             <?php echo $this->Html->link($episode['Episode']['title'],
 							array('controller' => 'episodes', 'action' => 'view', $episode['Episode']['id'])); ?>
         </td>
         <td><?php echo $episode['Episode']['episode_number']; ?></td>
         <td><?php echo $episode['Episode']['original_air_date']; ?></td>
         <td><?php echo $episode['Season']['title']; ?></td>
-        <td><?php echo $episode['Show']['title']; ?></td>
         <td>
             <?php echo $this->Form->postLink(
                 'Delete',

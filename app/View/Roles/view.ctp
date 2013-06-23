@@ -17,7 +17,11 @@
 <p><small>Created: <?php echo $role['Role']['created']; ?></small></p>
 <p><small>Last Modified: <?php echo $role['Role']['modified']; ?></small></p>
 
-<?php echo $this->Html->link(
-    'Back to Roles',
-    array('controller' => 'roles', 'action' => 'index')
-); ?>
+
+<p><?php echo $this->Html->link('Edit', 
+	array('action' => 'edit', $role['Role']['id'])); ?>
+</p>
+
+<p><?php echo $this->Html->link('Back to Roles',
+    array('controller' => 'roles', 'action' => 'index')); ?>
+</p>
