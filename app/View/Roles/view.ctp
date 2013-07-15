@@ -10,7 +10,7 @@
 <p>Edit Any Show: <?php echo $role['Role']['is_edit_any_show']; ?></p>
 <p>Make Any Show Inactive: <?php echo $role['Role']['is_make_any_show_inactive']; ?></p>
 <p>Add Episode: <?php echo $role['Role']['is_add_episode']; ?></p>
-<p>Edit Any Episode: <?php echo $role['Role']['is_edit_any_episode']; ?>/p>
+<p>Edit Any Episode: <?php echo $role['Role']['is_edit_any_episode']; ?></p>
 <p>Edit Authored Episode: <?php echo $role['Role']['is_edit_authored_episode']; ?></p>
 <p>Edit Settings: <?php echo $role['Role']['is_edit_settings']; ?></p>
 

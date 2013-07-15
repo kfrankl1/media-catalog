@@ -10,7 +10,7 @@
         <th>Id</th>
         <th>First Name</th>
         <th>Last Name</th>
-        <th>Username</th>
+        <th>Email</th>
         <th>Role</th>
         <th>Actions</th>
         <th>Last Modified</th>
