@@ -3,6 +3,7 @@
 class ShowsController extends AppController {
 	public $helpers = array('Html', 'Form', 'Session');
 	public $components = array('Session');
+	public $name = 'Shows';
 	
 	public function index() {
 		$this->set('shows', $this->Show->find('all'));

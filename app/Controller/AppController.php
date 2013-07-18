@@ -34,12 +34,15 @@ App::uses('Controller', 'Controller');
 class AppController extends Controller {
 	
 	public $components = array(
-		'Session',
-		'Auth' => array(
-				'loginRedirect' => array('controller' => 'shows', 'action' => 'index'),
-				'logoutRedirect' => array('controller' => 'shows', 'action' => 'display', 'home')
+		'Session'
+		,'Acl'
+		,'Auth' => array(
+			'loginRedirect' => array('controller' => 'shows', 'action' => 'index')
+			,'logoutRedirect' => array('controller' => 'shows', 'action' => 'display', 'home')
+			,'authorize' => array('Actions' => array('actionPath' => 'controllers')) // added for acl
 		)
 	);
+    public $helpers = array('Html', 'Form', 'Session');
 	
 	/* Commented out 6/16/13 - KF
 	public function beforeFilter() {
@@ -51,6 +54,14 @@ class AppController extends Controller {
 	* beforeFilter - added 6/16/13 - KF
 	**/
 	function beforeFilter() {
+		//Configure AuthComponent
+        //$this->Auth->authorize = 'actions'; // commented out for acl
+		// added four lines for acl
+		$this->Auth->allow('display');
+        $this->Auth->loginAction = array('controller' => 'users', 'action' => 'login');
+        $this->Auth->logoutRedirect = array('controller' => 'users', 'action' => 'login');
+        //$this->Auth->loginRedirect = array('controller' => 'posts', 'action' => 'add');
+		
 		/**
 		* If logged in, set the model property userId to logged in user's ID
 		**/

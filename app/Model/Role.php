@@ -4,6 +4,7 @@
 class Role extends AppModel {
 	var $name = "Role";
 	var $displayField = "title";
+	public $actsAs = array('Acl' => array('type' => 'requester'));
 	
     public $hasMany = array(
         'User' => array(
@@ -23,6 +24,10 @@ class Role extends AppModel {
 			)
 		)
 	);
+
+    public function parentNode() {
+        return null;
+    }
 }
 
 ?>

@@ -1,8 +1,10 @@
 <?php
 
 // app/Model/User.php
+App::uses('AuthComponent', 'Controller/Component'); // added for acl
 class User extends AppModel {
 	var $name = "User";
+	public $actsAs = array('Acl' => array('type' => 'requester'));
 	
 	public $belongsTo = array(
         'Role' => array(
@@ -49,6 +51,22 @@ class User extends AppModel {
             )
         )
     );
+	
+	public function parentNode() {
+        if (!$this->id && empty($this->data)) {
+            return null;
+        }
+        if (isset($this->data['User']['role_id'])) {
+            $roleId = $this->data['User']['role_id'];
+        } else {
+            $roleId = $this->field('role_id');
+        }
+        if (!$roleId) {
+            return null;
+        } else {
+            return array('Role' => array('id' => $roleId));
+        }
+    }
 	
 	public function beforeSave($options = array()) {
 		if (isset($this->data[$this->alias]['password'])) {
