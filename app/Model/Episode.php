@@ -60,17 +60,23 @@ class Episode extends AppModel {
                 'message' => 'A episode file is required'
             )
         ),*/
-        'show' => array(
-            'valid' => array(
-                'allowEmpty' => false
+        'show_id' => array(
+            'required' => array(
+                'rule' => array('notEmpty'),
+				'message' => 'A show is required'
+            )
+        ),
+		'season_id' => array(
+            'required' => array(
+                'rule' => array('notEmpty'),
+				'message' => 'A season is required'
             )
         )
-	/*	,'season_id' => array(
-            'valid' => array(
-                'allowEmpty' => false
-            )
-        )*/
     );
+	
+	public function isOwnedBy($episode, $user) {
+		return $this->field('id', array('id' => $episode, 'created_by' => $user)) === $episode;
+	}
 }
 
 ?>

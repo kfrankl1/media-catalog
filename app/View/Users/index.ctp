@@ -12,6 +12,7 @@
         <th>Last Name</th>
         <th>Email</th>
         <th>Role</th>
+        <th>Authorized Show</th>
         <th>Actions</th>
         <th>Last Modified</th>
         <th>Modified By</th>
@@ -29,6 +30,7 @@
 							array('controller' => 'users', 'action' => 'view', $user['User']['id'])); ?>
         </td>
         <td><?php echo $user['Role']['title']; ?></td>
+        <td><?php echo $user['Show']['title']; ?></td>
         <td>
             <?php echo $this->Form->postLink(
                 'Delete',

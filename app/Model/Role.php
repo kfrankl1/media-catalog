@@ -8,15 +8,15 @@ class Role extends AppModel {
 	
     public $hasMany = array(
         'User' => array(
-            'className'     => 'User',
+            'className' => 'User',
 			'conditions' => array('User.is_active' => '1'),
 			'order' => 'User.username ASC',
-            'foreignKey'    => 'role_id'
+            'foreignKey' => 'role_id'
         )
     );
 	
 	public $validate = array(
-		'role' => array(
+		'title' => array(
 			'isUnique' => array(
 				'rule' => 'isUnique',
 				'required' => 'true',

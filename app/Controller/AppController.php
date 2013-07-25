@@ -37,30 +37,43 @@ class AppController extends Controller {
 		'Session'
 		,'Acl'
 		,'Auth' => array(
-			'loginRedirect' => array('controller' => 'shows', 'action' => 'index')
-			,'logoutRedirect' => array('controller' => 'shows', 'action' => 'display', 'home')
-			,'authorize' => array('Actions' => array('actionPath' => 'controllers')) // added for acl
+			'loginRedirect' => array('controller' => 'episodes', 'action' => 'index') // 'action' => 'display', 'home')
+			,'logoutRedirect' => array('controller' => 'users', 'action' => 'login')
+			,'authorize' => array('Actions' => array('actionPath' => 'controllers')) // added for acl, this one works!
+			//,'authorize' => array('Controller') // <- here
+			//,'authorize' => 'actions'
 		)
 	);
+
     public $helpers = array('Html', 'Form', 'Session');
 	
-	/* Commented out 6/16/13 - KF
-	public function beforeFilter() {
-		$this->Auth->allow('index', 'view');
+	
+	public function isAuthorized($user) {
+		// Admin can access every action
+		if (isset($user['role_id']) && $user['role_id'] === '1') {
+			return true;
+		}
+	
+		// Default deny
+		return false;
 	}
-	*/
 	
 	/**
 	* beforeFilter - added 6/16/13 - KF
 	**/
 	function beforeFilter() {
+		$user = $this->Auth->user('id');
+		
 		//Configure AuthComponent
         //$this->Auth->authorize = 'actions'; // commented out for acl
 		// added four lines for acl
-		$this->Auth->allow('display');
+		$this->Auth->allow('display'); //('index', 'view');
         $this->Auth->loginAction = array('controller' => 'users', 'action' => 'login');
         $this->Auth->logoutRedirect = array('controller' => 'users', 'action' => 'login');
-        //$this->Auth->loginRedirect = array('controller' => 'posts', 'action' => 'add');
+        $this->Auth->loginRedirect = array('controller' => 'episodes', 'action' => 'index');
+		// A User may add, edit or delete their own posts, but not other user's posts
+		//$this->Acl->allow( array('model' => 'Episode', 'foreign_key' => $user), $this->data['Episode']['episode_id'], 'edit' );
+
 		
 		/**
 		* If logged in, set the model property userId to logged in user's ID

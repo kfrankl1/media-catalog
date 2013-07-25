@@ -19,7 +19,7 @@
         <th>Modified By</th>
     </tr>
 
-    <!-- Here is where we loop through our $episodes array, printing out post info -->
+    <!-- Here is where we loop through our $episodes array, printing out episode info -->
 
     <?php foreach ($episodes as $episode): ?>
     <tr>
@@ -38,12 +38,20 @@
         <td><?php echo $episode['Episode']['original_air_date']; ?></td>
         <td><?php echo $episode['Season']['title']; ?></td>
         <td>
-            <?php echo $this->Form->postLink(
-                'Delete',
-                array('action' => 'delete', $episode['Episode']['id']),
-                array('confirm' => 'Are you sure?'));
+            <?php
+            	if (AuthComponent::user('role_id') === '1') {
+					echo $this->Form->postLink(
+						'Delete',
+						array('action' => 'delete', $episode['Episode']['id']),
+						array('confirm' => 'Are you sure?'));
+				}
             ?>
-            <?php echo $this->Html->link('Edit', array('action' => 'edit', $episode['Episode']['id'])); ?>
+            <?php
+				if ($episode['Episode']['created_by'] == AuthComponent::user('id')
+					| AuthComponent::user('role_id') === '1') {
+					echo $this->Html->link('Edit', array('action' => 'edit', $episode['Episode']['id'])); 
+				}
+			?>
         </td>
         <td><?php echo $episode['Episode']['modified']; ?></td>
         <td>

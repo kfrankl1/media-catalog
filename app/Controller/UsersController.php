@@ -6,57 +6,10 @@ class UsersController extends AppController {
 	
     public function beforeFilter() {
         parent::beforeFilter();
+		$this->Auth->allow('login');
+		$this->Auth->allow('logout');
 		//$this->Auth->allow('initDB');
     }
-	
-	//public function initDB() {
-//		$role = $this->User->Role;
-//		
-//		//Allow admins to everything
-//		$role->id = 1;
-//		$this->Acl->allow($role, 'controllers');
-//	
-//		//allow support to shows, seasons, genres, episodes and widgets
-//		$role->id = 2;
-//		$this->Acl->deny($role, 'controllers');
-//		$this->Acl->allow($role, 'controllers/Episodes');
-//		$this->Acl->allow($role, 'controllers/Genres');
-//		$this->Acl->allow($role, 'controllers/Seasons');
-//		$this->Acl->allow($role, 'controllers/Shows');
-//		$this->Acl->allow($role, 'controllers/Users/add');
-//		$this->Acl->allow($role, 'controllers/Users/index');
-//		$this->Acl->allow($role, 'controllers/Users/logout');
-//		$this->Acl->allow($role, 'controllers/Users/view');
-//	
-//		//allow producers to only add and edit on posts and widgets
-//		$role->id = 3;
-//		$this->Acl->deny($role, 'controllers');
-//		$this->Acl->allow($role, 'controllers/Episodes/add');
-//		$this->Acl->allow($role, 'controllers/Episodes/edit');
-//		$this->Acl->allow($role, 'controllers/Episodes/index');
-//		$this->Acl->allow($role, 'controllers/Episodes/view');
-//		$this->Acl->allow($role, 'controllers/Shows/edit');
-//		$this->Acl->allow($role, 'controllers/Shows/index');
-//		$this->Acl->allow($role, 'controllers/Shows/view');
-//	
-//		//allow crew to only add and edit on posts and widgets
-//		$role->id = 4;
-//		$this->Acl->deny($role, 'controllers');
-//		$this->Acl->allow($role, 'controllers/Genres/index');
-//		$this->Acl->allow($role, 'controllers/Genres/view');
-//		$this->Acl->allow($role, 'controllers/Seasons/index');
-//		$this->Acl->allow($role, 'controllers/Seasons/view');
-//		$this->Acl->allow($role, 'controllers/Shows/index');
-//		$this->Acl->allow($role, 'controllers/Shows/view');
-//		$this->Acl->allow($role, 'controllers/Episodes/add');
-//		$this->Acl->allow($role, 'controllers/Episodes/edit');
-//		$this->Acl->allow($role, 'controllers/Episodes/index');
-//		$this->Acl->allow($role, 'controllers/Episodes/view');
-//		
-//		//we add an exit to avoid an ugly "missing views" error message
-//		echo "all done";
-//		exit;
-//	}
 
     public function index() {
         $this->User->recursive = 0;
@@ -73,6 +26,7 @@ class UsersController extends AppController {
 
     public function add() {
 		$this->set('roles', $this->User->Role->find('list'));
+		$this->set('shows', $this->User->Show->find('list'));
 		
         if ($this->request->is('post')) {
             $this->User->create();
@@ -87,6 +41,7 @@ class UsersController extends AppController {
 
     public function edit($id = null) {
 		$this->set('roles', $this->User->Role->find('list'));
+		$this->set('shows', $this->User->Show->find('list'));
         $this->User->id = $id;
         if (!$this->User->exists()) {
             throw new NotFoundException(__('Invalid user'));
@@ -138,6 +93,55 @@ class UsersController extends AppController {
 		$this->Session->setFlash('Good-Bye');
 		$this->redirect($this->Auth->logout());
 	}
+		
+	public function initDB() {
+		$role = $this->User->Role;
+		
+		// Allow admins to everything
+		$role->id = 1;
+		$this->Acl->allow($role, 'controllers');
+	
+		// allow support to add and edit episodes, genres, seasons, shows
+		// allow support to add users
+		$role->id = 2;
+		$this->Acl->deny($role, 'controllers');
+		$this->Acl->allow($role, 'controllers/Episodes');
+		$this->Acl->allow($role, 'controllers/Genres');
+		$this->Acl->allow($role, 'controllers/Seasons');
+		$this->Acl->allow($role, 'controllers/Shows');
+		$this->Acl->allow($role, 'controllers/Users/add');
+		$this->Acl->allow($role, 'controllers/Users/index');
+		$this->Acl->allow($role, 'controllers/Users/view');
+	
+		// allow producers to only add and edit assigned episodes and show
+		$role->id = 3;
+		$this->Acl->deny($role, 'controllers');
+		$this->Acl->allow($role, 'controllers/Episodes/add');
+		$this->Acl->allow($role, 'controllers/Episodes/edit');
+		$this->Acl->allow($role, 'controllers/Episodes/index');
+		$this->Acl->allow($role, 'controllers/Episodes/view');
+		$this->Acl->allow($role, 'controllers/Shows/index');
+		$this->Acl->allow($role, 'controllers/Shows/view');
+	
+		// allow crew to only add and edit assigned episodes
+		$role->id = 4;
+		$this->Acl->deny($role, 'controllers');
+		$this->Acl->allow($role, 'controllers/Genres/index');
+		$this->Acl->allow($role, 'controllers/Genres/view');
+		$this->Acl->allow($role, 'controllers/Seasons/index');
+		$this->Acl->allow($role, 'controllers/Seasons/view');
+		$this->Acl->allow($role, 'controllers/Shows/index');
+		$this->Acl->allow($role, 'controllers/Shows/view');
+		$this->Acl->allow($role, 'controllers/Episodes/add');
+		$this->Acl->allow($role, 'controllers/Episodes/edit');
+		$this->Acl->allow($role, 'controllers/Episodes/index');
+		$this->Acl->allow($role, 'controllers/Episodes/view');
+		
+		// we add an exit to avoid an ugly "missing views" error message
+		echo "all done";
+		exit;
+	}
+	
 }
 
 ?>

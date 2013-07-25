@@ -2,7 +2,18 @@
 
 class EpisodesController extends AppController {
 	public $helpers = array('Html', 'Form', 'Session');
-	public $components = array('Session');
+	
+	public function isAuthorized($user) {
+		// The owner of an episode can edit it
+		if (in_array($this->action, array('edit'))) {
+			$episodeId = $this->request->params['pass'][0];
+			if ($this->Episode->isOwnedBy($episodeId, $user['id'])) {
+				return true;
+			}
+		}
+		
+		return parent::isAuthorized($user);
+	}
 	
 	public function index() {
 		$this->set('episodes', $this->Episode->find('all'));
@@ -32,34 +43,42 @@ class EpisodesController extends AppController {
 			} else {
 					$this->Session->setFlash('Unable to add your episode.');
 			}
+		} else {
+			//$this->data['Episode']['show_id'] = 6;
 		}
 	}
 	
 	public function edit($id = null) {
-		$this->set('shows', $this->Episode->Show->find('list'));
-		$this->set('seasons', $this->Episode->Season->find('list'));
-		
-		if (!$id) {
-			throw new NotFoundException(__('Invalid episode'));
-		}
-	
-		$episode = $this->Episode->findById($id);
-		if (!$episode) {
-			throw new NotFoundException(__('Invalid episode'));
-		}
-	
-		if ($this->request->is('post') || $this->request->is('put')) {
-				$this->Episode->id = $id;
-		  if ($this->Episode->save($this->request->data)) {
-				$this->Session->setFlash('Your episode has been updated.');
-				$this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash('Unable to update your episode.');
+		$user = $this->Auth->user(AuthComponent::user('id'));
+		if ($this->isAuthorized($user)) {
+			$this->set('shows', $this->Episode->Show->find('list'));
+			$this->set('seasons', $this->Episode->Season->find('list'));
+			
+			if (!$id) {
+				throw new NotFoundException(__('Invalid episode'));
 			}
-		}
-	
-		if (!$this->request->data) {
-			$this->request->data = $episode;
+		
+			$episode = $this->Episode->findById($id);
+			if (!$episode) {
+				throw new NotFoundException(__('Invalid episode'));
+			}
+		
+			if ($this->request->is('post') || $this->request->is('put')) {
+					$this->Episode->id = $id;
+			  if ($this->Episode->save($this->request->data)) {
+					$this->Session->setFlash('Your episode has been updated.');
+					$this->redirect(array('action' => 'index'));
+				} else {
+					$this->Session->setFlash('Unable to update your episode.');
+				}
+			}
+		
+			if (!$this->request->data) {
+				$this->request->data = $episode;
+			}
+		} else {
+			$this->Session->setFlash('You do not have permission to edit this episode.');
+			$this->redirect(array('action' => 'index'));
 		}
 	}
 	

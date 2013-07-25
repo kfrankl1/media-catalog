@@ -9,6 +9,7 @@
 			echo $this->Form->input('username', array('label' => 'Email'));
 			echo $this->Form->input('password');
 			echo $this->Form->input('role_id');
+			echo $this->Form->input('show_id');
 		?>
     </fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>

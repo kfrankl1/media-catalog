@@ -10,6 +10,11 @@ class Show extends AppModel {
 			'order' => 'Episode.original_air_date DESC',
             'foreignKey'    => 'show_id'
         )
+        ,'User' => array(
+            'className'     => 'User',
+			'conditions' => array('User.is_active' => '1'),
+            'foreignKey'    => 'show_id'
+        )
     );
 	
     public $hasAndBelongsToMany = array(
