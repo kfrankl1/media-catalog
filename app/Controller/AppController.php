@@ -39,7 +39,8 @@ class AppController extends Controller {
 		,'Auth' => array(
 			'loginRedirect' => array('controller' => 'shows', 'action' => 'index')
 			,'logoutRedirect' => array('controller' => 'shows', 'action' => 'display', 'home')
-			,'authorize' => array('Actions' => array('actionPath' => 'controllers')) // added for acl
+			//,'authorize' => array('Actions' => array('actionPath' => 'controllers')) // added for acl
+			,'authorize' => array('Controller') // added for Auth tutorial
 		)
 	);
     public $helpers = array('Html', 'Form', 'Session');
@@ -57,7 +58,7 @@ class AppController extends Controller {
 		//Configure AuthComponent
         //$this->Auth->authorize = 'actions'; // commented out for acl
 		// added four lines for acl
-		$this->Auth->allow('display');
+		$this->Auth->allow('index', 'view'); //'display');
         $this->Auth->loginAction = array('controller' => 'users', 'action' => 'login');
         $this->Auth->logoutRedirect = array('controller' => 'users', 'action' => 'login');
         //$this->Auth->loginRedirect = array('controller' => 'posts', 'action' => 'add');
@@ -69,4 +70,14 @@ class AppController extends Controller {
 			$this->{$this->modelClass}->userId = $userId;
 		}
 	}
+	
+	public function isAuthorized($user) {
+    // Admin can access every action
+    if (isset($user['role_id']) && $user['role_id'] === 1) {
+        return true;
+    }
+
+    // Default deny
+    return false;
+}
 }

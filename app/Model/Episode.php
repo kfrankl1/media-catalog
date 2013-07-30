@@ -71,6 +71,10 @@ class Episode extends AppModel {
             )
         )*/
     );
+	
+	public function isOwnedBy($episode, $user) {
+		return $this->field('id', array('id' => $episode, 'created_by' => $user)) === $episode;
+	}
 }
 
 ?>

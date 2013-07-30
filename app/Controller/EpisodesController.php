@@ -74,6 +74,23 @@ class EpisodesController extends AppController {
 		}
 	}
 	
+	public function isAuthorized($user) {
+		// All registered users can add episodes
+		if ($this->action === 'add') {
+			return true;
+		}
+	
+		// The owner of an episode can edit it
+		if (in_array($this->action, array('edit'))) {
+			$episodeId = $this->request->params['pass'][0];
+			if ($this->Episode->isOwnedBy($episodeId, $user['id'])) {
+				return true;
+			}
+		}
+	
+		return parent::isAuthorized($user);
+	}
+	
 }
 
 ?>
