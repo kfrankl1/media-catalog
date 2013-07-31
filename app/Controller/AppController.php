@@ -39,8 +39,8 @@ class AppController extends Controller {
 		,'Auth' => array(
 			'loginRedirect' => array('controller' => 'shows', 'action' => 'index')
 			,'logoutRedirect' => array('controller' => 'shows', 'action' => 'display', 'home')
-			//,'authorize' => array('Actions' => array('actionPath' => 'controllers')) // added for acl
-			,'authorize' => array('Controller') // added for Auth tutorial
+			,'authorize' => array('Actions' => array('actionPath' => 'controllers')) // added for acl
+			//,'authorize' => array('Controller') // added for Auth tutorial
 		)
 	);
     public $helpers = array('Html', 'Form', 'Session');
@@ -72,12 +72,12 @@ class AppController extends Controller {
 	}
 	
 	public function isAuthorized($user) {
-    // Admin can access every action
-    if (isset($user['role_id']) && $user['role_id'] === 1) {
-        return true;
-    }
-
-    // Default deny
-    return false;
-}
+		// Admin can access every action
+		if (isset($user['role_id']) && $user['role_id'] === 1) {
+			return true;
+		}
+	
+		// Default deny
+		return false;
+	}
 }
