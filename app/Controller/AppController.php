@@ -37,11 +37,18 @@ class AppController extends Controller {
 		'Session'
 		,'Acl'
 		,'Auth' => array(
+//<<<<<<< HEAD
 			'loginRedirect' => array('controller' => 'episodes', 'action' => 'index') // 'action' => 'display', 'home')
 			,'logoutRedirect' => array('controller' => 'users', 'action' => 'login')
 			,'authorize' => array('Actions' => array('actionPath' => 'controllers')) // added for acl, this one works!
 			//,'authorize' => array('Controller') // <- here
 			//,'authorize' => 'actions'
+//=======
+//			'loginRedirect' => array('controller' => 'shows', 'action' => 'index')
+//			,'logoutRedirect' => array('controller' => 'shows', 'action' => 'display', 'home')
+//			,'authorize' => array('Actions' => array('actionPath' => 'controllers')) // added for acl
+//			//,'authorize' => array('Controller') // added for Auth tutorial
+//>>>>>>> auth-fix
 		)
 	);
 
@@ -67,7 +74,11 @@ class AppController extends Controller {
 		//Configure AuthComponent
         //$this->Auth->authorize = 'actions'; // commented out for acl
 		// added four lines for acl
-		$this->Auth->allow('display'); //('index', 'view');
+//<<<<<<< HEAD
+//		$this->Auth->allow('display'); //('index', 'view');
+//=======
+		$this->Auth->allow('index', 'view'); //'display');
+//>>>>>>> auth-fix
         $this->Auth->loginAction = array('controller' => 'users', 'action' => 'login');
         $this->Auth->logoutRedirect = array('controller' => 'users', 'action' => 'login');
         $this->Auth->loginRedirect = array('controller' => 'episodes', 'action' => 'index');
@@ -81,5 +92,15 @@ class AppController extends Controller {
 		if ($userId = $this->Auth->user('id')) {
 			$this->{$this->modelClass}->userId = $userId;
 		}
+	}
+	
+	public function isAuthorized($user) {
+		// Admin can access every action
+		if (isset($user['role_id']) && $user['role_id'] === 1) {
+			return true;
+		}
+	
+		// Default deny
+		return false;
 	}
 }

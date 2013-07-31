@@ -49,8 +49,26 @@ class EpisodesController extends AppController {
 	}
 	
 	public function edit($id = null) {
-		$user = $this->Auth->user(AuthComponent::user('id'));
+//<<<<<<< HEAD
+//		$user = $this->Auth->user(AuthComponent::user('id'));
+//		if ($this->isAuthorized($user)) {
+//			$this->set('shows', $this->Episode->Show->find('list'));
+//			$this->set('seasons', $this->Episode->Season->find('list'));
+//			
+//			if (!$id) {
+//				throw new NotFoundException(__('Invalid episode'));
+//			}
+//		
+//			$episode = $this->Episode->findById($id);
+//			if (!$episode) {
+//				throw new NotFoundException(__('Invalid episode'));
+//			}
+//		
+//=======
+		$user = $this->Auth->user();
 		if ($this->isAuthorized($user)) {
+		
+		
 			$this->set('shows', $this->Episode->Show->find('list'));
 			$this->set('seasons', $this->Episode->Season->find('list'));
 			
@@ -63,6 +81,7 @@ class EpisodesController extends AppController {
 				throw new NotFoundException(__('Invalid episode'));
 			}
 		
+//>>>>>>> auth-fix
 			if ($this->request->is('post') || $this->request->is('put')) {
 					$this->Episode->id = $id;
 			  if ($this->Episode->save($this->request->data)) {
@@ -76,6 +95,11 @@ class EpisodesController extends AppController {
 			if (!$this->request->data) {
 				$this->request->data = $episode;
 			}
+//<<<<<<< HEAD
+//=======
+//		
+//		
+//>>>>>>> auth-fix
 		} else {
 			$this->Session->setFlash('You do not have permission to edit this episode.');
 			$this->redirect(array('action' => 'index'));
@@ -91,6 +115,23 @@ class EpisodesController extends AppController {
 			$this->Session->setFlash('The episode with id: ' . $id . ' has been deleted.');
 			$this->redirect(array('action' => 'index'));
 		}
+	}
+	
+	public function isAuthorized($user) {
+		// All registered users can add episodes
+		if ($this->action === 'add') {
+			return true;
+		}
+	
+		// The owner of an episode can edit it
+		if (in_array($this->action, array('edit'))) {
+			$episodeId = $this->request->params['pass'][0];
+			if ($this->Episode->isOwnedBy($episodeId, $user['id'])) {
+				return true;
+			}
+		}
+	
+		return parent::isAuthorized($user);
 	}
 	
 }
