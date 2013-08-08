@@ -37,33 +37,15 @@ class AppController extends Controller {
 		'Session'
 		,'Acl'
 		,'Auth' => array(
-//<<<<<<< HEAD
 			'loginRedirect' => array('controller' => 'episodes', 'action' => 'index') // 'action' => 'display', 'home')
 			,'logoutRedirect' => array('controller' => 'users', 'action' => 'login')
 			,'authorize' => array('Actions' => array('actionPath' => 'controllers')) // added for acl, this one works!
 			//,'authorize' => array('Controller') // <- here
 			//,'authorize' => 'actions'
-//=======
-//			'loginRedirect' => array('controller' => 'shows', 'action' => 'index')
-//			,'logoutRedirect' => array('controller' => 'shows', 'action' => 'display', 'home')
-//			,'authorize' => array('Actions' => array('actionPath' => 'controllers')) // added for acl
-//			//,'authorize' => array('Controller') // added for Auth tutorial
-//>>>>>>> auth-fix
 		)
 	);
 
     public $helpers = array('Html', 'Form', 'Session');
-	
-	
-	public function isAuthorized($user) {
-		// Admin can access every action
-		if (isset($user['role_id']) && $user['role_id'] === '1') {
-			return true;
-		}
-	
-		// Default deny
-		return false;
-	}
 	
 	/**
 	* beforeFilter - added 6/16/13 - KF
@@ -74,11 +56,7 @@ class AppController extends Controller {
 		//Configure AuthComponent
         //$this->Auth->authorize = 'actions'; // commented out for acl
 		// added four lines for acl
-//<<<<<<< HEAD
-//		$this->Auth->allow('display'); //('index', 'view');
-//=======
 		$this->Auth->allow('index', 'view'); //'display');
-//>>>>>>> auth-fix
         $this->Auth->loginAction = array('controller' => 'users', 'action' => 'login');
         $this->Auth->logoutRedirect = array('controller' => 'users', 'action' => 'login');
         $this->Auth->loginRedirect = array('controller' => 'episodes', 'action' => 'index');
@@ -96,7 +74,8 @@ class AppController extends Controller {
 	
 	public function isAuthorized($user) {
 		// Admin can access every action
-		if (isset($user['role_id']) && $user['role_id'] === 1) {
+		if (isset($user['role_id']) && $user['role_id'] == 1) {
+			echo 'True';
 			return true;
 		}
 	

@@ -11,8 +11,20 @@
 <p><small>Last Modified: <?php echo $episode['Episode']['modified']; ?></small></p>
 
 
-<p><?php echo $this->Html->link('Edit', 
-	array('action' => 'edit', $episode['Episode']['id'])); ?>
+<p><?php if ($episode['Episode']['created_by'] == AuthComponent::user('id')
+			| AuthComponent::user('role_id') === '1') {
+			echo $this->Html->link('Edit', array('action' => 'edit', $episode['Episode']['id'])); 
+		}
+	?>
+</p>
+<p><?php
+		if (AuthComponent::user('role_id') === '1') {
+			echo $this->Form->postLink(
+				'Delete',
+				array('action' => 'delete', $episode['Episode']['id']),
+				array('confirm' => 'Are you sure?'));
+		}
+	?>
 </p>
 
 <p><?php echo $this->Html->link('Back to Episodes',

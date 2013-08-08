@@ -10,6 +10,11 @@
 			echo $this->Form->input('password');
 			echo $this->Form->input('role_id');
 			echo $this->Form->input('show_id');
+	//		echo $this->Form->input('Show', array(
+//				'label' => __('Show', true)
+//				,'type' => 'select'
+//				,'multiple' => 'checkbox'
+//			));
 		?>
     </fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>

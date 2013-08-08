@@ -41,9 +41,12 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 	<div id="container">
 		<div id="header">
 			<h1><?php echo $this->Html->link($cakeDescription, 'http://cakephp.org'); ?></h1>
+            <?php	if (AuthComponent::user('first_name') != null) {
+						echo '<h4>What are you doing today, ' . AuthComponent::user('first_name') . '?</h4>'; //added by KF on 8/1/2013
+					}
+			?>
 		</div>
 		<div id="content">
-
 			<?php echo $this->Session->flash(); ?>
 
 			<?php echo $this->fetch('content'); ?>

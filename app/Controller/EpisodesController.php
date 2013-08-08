@@ -2,21 +2,14 @@
 
 class EpisodesController extends AppController {
 	public $helpers = array('Html', 'Form', 'Session');
-	
-	public function isAuthorized($user) {
-		// The owner of an episode can edit it
-		if (in_array($this->action, array('edit'))) {
-			$episodeId = $this->request->params['pass'][0];
-			if ($this->Episode->isOwnedBy($episodeId, $user['id'])) {
-				return true;
-			}
-		}
-		
-		return parent::isAuthorized($user);
-	}
+	//var $displayEdit = 'Edit';
 	
 	public function index() {
 		$this->set('episodes', $this->Episode->find('all'));
+		//$user = $this->Auth->user();
+		//$this->set('user', $this->user);
+		//$this->set('displayEdit', $this->displayEdit);
+		//$displayEdit = $this->Html->link('Edit', array('action' => 'edit', $episode['Episode']['id']));
 	}
 
 	public function view($id = null) {
@@ -49,26 +42,8 @@ class EpisodesController extends AppController {
 	}
 	
 	public function edit($id = null) {
-//<<<<<<< HEAD
-//		$user = $this->Auth->user(AuthComponent::user('id'));
-//		if ($this->isAuthorized($user)) {
-//			$this->set('shows', $this->Episode->Show->find('list'));
-//			$this->set('seasons', $this->Episode->Season->find('list'));
-//			
-//			if (!$id) {
-//				throw new NotFoundException(__('Invalid episode'));
-//			}
-//		
-//			$episode = $this->Episode->findById($id);
-//			if (!$episode) {
-//				throw new NotFoundException(__('Invalid episode'));
-//			}
-//		
-//=======
 		$user = $this->Auth->user();
 		if ($this->isAuthorized($user)) {
-		
-		
 			$this->set('shows', $this->Episode->Show->find('list'));
 			$this->set('seasons', $this->Episode->Season->find('list'));
 			
@@ -80,13 +55,12 @@ class EpisodesController extends AppController {
 			if (!$episode) {
 				throw new NotFoundException(__('Invalid episode'));
 			}
-		
-//>>>>>>> auth-fix
+			
 			if ($this->request->is('post') || $this->request->is('put')) {
 					$this->Episode->id = $id;
 			  if ($this->Episode->save($this->request->data)) {
 					$this->Session->setFlash('Your episode has been updated.');
-					$this->redirect(array('action' => 'index'));
+					$this->redirect(array('action' => 'view', $id));
 				} else {
 					$this->Session->setFlash('Unable to update your episode.');
 				}
@@ -95,11 +69,7 @@ class EpisodesController extends AppController {
 			if (!$this->request->data) {
 				$this->request->data = $episode;
 			}
-//<<<<<<< HEAD
-//=======
-//		
-//		
-//>>>>>>> auth-fix
+			
 		} else {
 			$this->Session->setFlash('You do not have permission to edit this episode.');
 			$this->redirect(array('action' => 'index'));
@@ -108,7 +78,7 @@ class EpisodesController extends AppController {
 	
 	public function delete($id) {
 		if ($this->request->is('get')) {
-				throw new MethodNotAllowedException();
+			throw new MethodNotAllowedException();
 		}
 	
 		if ($this->Episode->delete($id)) {
@@ -118,11 +88,6 @@ class EpisodesController extends AppController {
 	}
 	
 	public function isAuthorized($user) {
-		// All registered users can add episodes
-		if ($this->action === 'add') {
-			return true;
-		}
-	
 		// The owner of an episode can edit it
 		if (in_array($this->action, array('edit'))) {
 			$episodeId = $this->request->params['pass'][0];
@@ -130,10 +95,9 @@ class EpisodesController extends AppController {
 				return true;
 			}
 		}
-	
+		
 		return parent::isAuthorized($user);
 	}
-	
 }
 
 ?>

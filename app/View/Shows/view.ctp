@@ -3,7 +3,7 @@
 <h1><?php echo h($show['Show']['title']); ?></h1>
 <p>Tagline: <?php echo $show['Show']['tagline']; ?></p>
 <p>Description: <?php echo $show['Show']['description']; ?></p>
-<p>Genre(s): <?php echo $show['Genre']['title'];  ?></p>
+<p>Genre(s): <?php echo $this->Text->toList($genres); ?></p>
 
 <p><small>Created: <?php echo $show['Show']['created']; ?></small></p>
 <p><small>Last Modified: <?php echo $show['Show']['modified']; ?></small></p>

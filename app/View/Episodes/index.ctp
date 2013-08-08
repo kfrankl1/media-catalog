@@ -46,7 +46,7 @@
 						array('confirm' => 'Are you sure?'));
 				}
             ?>
-            <?php
+            <?php			
 				if ($episode['Episode']['created_by'] == AuthComponent::user('id')
 					| AuthComponent::user('role_id') === '1') {
 					echo $this->Html->link('Edit', array('action' => 'edit', $episode['Episode']['id'])); 

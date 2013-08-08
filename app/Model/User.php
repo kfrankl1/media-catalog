@@ -84,10 +84,6 @@ class User extends AppModel {
 		}
 	}
 	
-	/**
-	 * May be an old way (2009) to do this, but doesn't overwrite password during edit when field is blank
-	 * http://blog.andrecardoso.eu/2009/09/cakephp-how-to-selectively-update-record-fields-without-blanking-or-changing-others/
-	 */
 	public function beforeSave($options = array()) {
 		if (isset($this->data[$this->alias]['password'])) {
 			$this->data[$this->alias]['password'] = AuthComponent::password($this->data[$this->alias]['password']);

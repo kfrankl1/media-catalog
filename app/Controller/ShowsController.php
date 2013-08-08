@@ -1,7 +1,7 @@
 <?php
 
 class ShowsController extends AppController {
-	public $helpers = array('Html', 'Form', 'Session');
+	public $helpers = array('Html', 'Form', 'Session', 'Text');
 	public $components = array('Session');
 	public $name = 'Shows';
 	
@@ -10,10 +10,11 @@ class ShowsController extends AppController {
 	}
 
 	public function view($id = null) {
+		$this->set('genres', $this->Show->Genre->find('list'));
 		if (!$id) {
 			throw new NotFoundException(__('Invalid show'));
 		}
-
+		
 		$show = $this->Show->findById($id);
 		if (!$show) {
 			throw new NotFoundException(__('Invalid show'));
@@ -48,7 +49,7 @@ class ShowsController extends AppController {
 	
 		if ($this->request->is('post') || $this->request->is('put')) {
 				$this->Show->id = $id;
-		  if ($this->Show->save($this->request->data)) {
+		  if ($this->Show->save($this->request->data)) { //if ($this->Show->save($this->request->data)) {
 				$this->Session->setFlash('Your show has been updated.');
 				$this->redirect(array('action' => 'index'));
 			} else {
