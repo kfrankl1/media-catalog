@@ -10,7 +10,42 @@ class ShowsController extends AppController {
 	}
 
 	public function view($id = null) {
-		$this->set('genres', $this->Show->Genre->find('list'));
+		$options = array(
+			'joins' => array(
+				array('table' => 'genres_shows',
+					'alias' => 'GenresShow',
+					'type' => 'left',
+					'conditions' => array(
+						'Show.id = GenresShow.show_id'
+					)
+				),
+				array('table' => 'genres',
+					'alias' => 'Genre',
+					'type' => 'left',
+					'conditions' => array(
+						'GenresShow.genre_id = Genre.id'
+					)
+				)
+			)
+			,'conditions' => array(
+				'GenresShow.show_id' => $id
+			)
+			,'fields' => array(
+				'Genre.title'
+			)
+			,'recursive' => -1
+		);
+		
+		$genresList = $this->Show->find('all', $options);	
+		
+		$result = array();
+		
+		foreach ($genresList as $genre):
+			array_push($result, $genre['Genre']['title']);
+		endforeach;
+		
+		$this->set('genres', $result);
+		
 		if (!$id) {
 			throw new NotFoundException(__('Invalid show'));
 		}
