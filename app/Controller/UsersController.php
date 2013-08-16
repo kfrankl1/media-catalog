@@ -12,7 +12,7 @@ class UsersController extends AppController {
     }
 
     public function index() {
-        $this->User->recursive = 0;
+        $this->User->recursive = 1;
         $this->set('users', $this->paginate());
     }
 
@@ -34,7 +34,7 @@ class UsersController extends AppController {
                 $this->Session->setFlash(__('The user has been saved'));
                 $this->redirect(array('action' => 'index'));
             } else {
-                $this->Session->setFlash(__('The user could not be saved. Please, try again.'));
+                $this->Session->setFlash(__('The user could not be saved. Please try again.'));
             }
         }
     }
@@ -42,6 +42,7 @@ class UsersController extends AppController {
     public function edit($id = null) {
 		$this->set('roles', $this->User->Role->find('list'));
 		$this->set('shows', $this->User->Show->find('list'));
+		
         $this->User->id = $id;
         if (!$this->User->exists()) {
             throw new NotFoundException(__('Invalid user'));
@@ -51,7 +52,7 @@ class UsersController extends AppController {
                 $this->Session->setFlash(__('The user has been saved'));
                 $this->redirect(array('action' => 'index'));
             } else {
-                $this->Session->setFlash(__('The user could not be saved. Please, try again.'));
+                $this->Session->setFlash(__('The user could not be saved. Please try again.'));
             }
         } else {
             $this->request->data = $this->User->read(null, $id);

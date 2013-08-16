@@ -11,11 +11,6 @@ class Show extends AppModel {
 			'order' => 'Episode.original_air_date DESC',
             'foreignKey'    => 'show_id'
         )
-        ,'User' => array(
-            'className'     => 'User',
-			'conditions' => array('User.is_active' => '1'),
-            'foreignKey'    => 'show_id'
-        )
     );
 	
     public $hasAndBelongsToMany = array(
@@ -25,6 +20,15 @@ class Show extends AppModel {
                 'joinTable' => 'genres_shows',
                 'foreignKey' => 'show_id',
                 'associationForeignKey' => 'genre_id',
+                'unique' => true,
+                'fields' => 'id'
+            )
+        ,'User' =>
+            array(
+                'className' => 'User',
+                'joinTable' => 'shows_users',
+                'foreignKey' => 'show_id',
+                'associationForeignKey' => 'user_id',
                 'unique' => true,
                 'fields' => 'id'
             )
@@ -57,6 +61,43 @@ class Show extends AppModel {
 			,'allowEmpty' => 'true'
 		)
 	);
+	
+	public function findAssociatedGenres($showId) {
+		$options = array(
+			'joins' => array(
+				array('table' => 'genres_shows',
+					'alias' => 'GenresShow',
+					'type' => 'left',
+					'conditions' => array(
+						'Show.id = GenresShow.show_id'
+					)
+				),
+				array('table' => 'genres',
+					'alias' => 'Genre',
+					'type' => 'left',
+					'conditions' => array(
+						'GenresShow.genre_id = Genre.id'
+					)
+				)
+			)
+			,'conditions' => array(
+				'GenresShow.show_id' => $showId
+			)
+			,'fields' => array(
+				'Genre.title'
+			)
+			,'recursive' => -1
+		);
+		
+		$genresList = $this->find('all', $options);
+		$result = array();
+		
+		foreach ($genresList as $genre):
+			array_push($result, $genre['Genre']['title']);
+		endforeach;	
+		
+		return $result;
+	}
 }
 
 ?>

@@ -1,15 +1,8 @@
 <?php
 
-class EpisodesController extends AppController {
-	public $helpers = array('Html', 'Form', 'Session');
-	//var $displayEdit = 'Edit';
-	
+class EpisodesController extends AppController {	
 	public function index() {
 		$this->set('episodes', $this->Episode->find('all'));
-		//$user = $this->Auth->user();
-		//$this->set('user', $this->user);
-		//$this->set('displayEdit', $this->displayEdit);
-		//$displayEdit = $this->Html->link('Edit', array('action' => 'edit', $episode['Episode']['id']));
 	}
 
 	public function view($id = null) {

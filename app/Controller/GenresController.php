@@ -1,9 +1,6 @@
 <?php
 
-class GenresController extends AppController {
-	public $helpers = array('Html', 'Form', 'Session');
-	public $components = array('Session');
-	
+class GenresController extends AppController {	
 	public function index() {
 		$this->set('genres', $this->Genre->find('all'));
 	}

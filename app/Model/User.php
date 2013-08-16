@@ -4,18 +4,27 @@
 App::uses('AuthComponent', 'Controller/Component'); // added for acl
 class User extends AppModel {
 	var $name = "User";
-	public $actsAs = array('Acl' => array('type' => 'requester'));
+	var $actsAs = array('Acl' => array('type' => 'requester'), 'HabtmValidatable' => 'Show'); //One field
+	//public $actsAs = array();
 	
 	public $belongsTo = array(
         'Role' => array(
             'className' => 'Role',
 			'foreignKey' => 'role_id'
 		)
-        ,'Show' => array(
-            'className' => 'Show',
-			'foreignKey' => 'show_id'
-		)
 	);
+	
+    public $hasAndBelongsToMany = array(
+        'Show' =>
+            array(
+                'className' => 'Show',
+                'joinTable' => 'shows_users',
+                'foreignKey' => 'user_id',
+                'associationForeignKey' => 'show_id',
+                'unique' => true,
+                'fields' => 'id'
+            )
+    );
 	
     public $validate = array(
 		'username' => array(
@@ -54,12 +63,12 @@ class User extends AppModel {
                 'message' => 'A role is required'
             )
         )
-		,'show_id' => array(
-            'requireShow' => array(
-                'rule' => array('notEmpty'),
-                'message' => 'A show is required'
-            )
-        )
+		,'Show' => array(
+			'rule' => array('multiple', array('min' => 1)),
+			'message' => 'Please select one or more shows'
+			,'required' => 'false'
+			,'allowEmpty' => 'true'
+		)
     );
 	
 	public function parentNode() {

@@ -1,50 +1,15 @@
 <?php
 
 class ShowsController extends AppController {
-	public $helpers = array('Html', 'Form', 'Session', 'Text');
-	public $components = array('Session');
+	public $helpers = array('Text');
 	public $name = 'Shows';
 	
 	public function index() {
 		$this->set('shows', $this->Show->find('all'));
 	}
 
-	public function view($id = null) {
-		$options = array(
-			'joins' => array(
-				array('table' => 'genres_shows',
-					'alias' => 'GenresShow',
-					'type' => 'left',
-					'conditions' => array(
-						'Show.id = GenresShow.show_id'
-					)
-				),
-				array('table' => 'genres',
-					'alias' => 'Genre',
-					'type' => 'left',
-					'conditions' => array(
-						'GenresShow.genre_id = Genre.id'
-					)
-				)
-			)
-			,'conditions' => array(
-				'GenresShow.show_id' => $id
-			)
-			,'fields' => array(
-				'Genre.title'
-			)
-			,'recursive' => -1
-		);
-		
-		$genresList = $this->Show->find('all', $options);	
-		
-		$result = array();
-		
-		foreach ($genresList as $genre):
-			array_push($result, $genre['Genre']['title']);
-		endforeach;
-		
-		$this->set('genres', $result);
+	public function view($id = null) {		
+		$this->set('genres', $this->Show->findAssociatedGenres($id));
 		
 		if (!$id) {
 			throw new NotFoundException(__('Invalid show'));
@@ -84,7 +49,7 @@ class ShowsController extends AppController {
 	
 		if ($this->request->is('post') || $this->request->is('put')) {
 				$this->Show->id = $id;
-		  if ($this->Show->save($this->request->data)) { //if ($this->Show->save($this->request->data)) {
+		  if ($this->Show->save($this->request->data)) {
 				$this->Session->setFlash('Your show has been updated.');
 				$this->redirect(array('action' => 'index'));
 			} else {

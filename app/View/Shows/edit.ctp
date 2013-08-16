@@ -11,7 +11,7 @@
 	    	Manually creating the label makes for a better UI. -->
 	<div class="required"><label for="ShowGenre">Genres</label></div>
 <?php
-	echo $this->Form->input('Show.Genre', array( //Show.Genre
+	echo $this->Form->input('Show.Genre', array(
         'label' => false
         ,'type' => 'select'
         ,'multiple' => 'checkbox'

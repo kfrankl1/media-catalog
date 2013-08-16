@@ -13,14 +13,7 @@ class Genre extends AppModel {
                 'foreignKey'             => 'genre_id',
                 'associationForeignKey'  => 'show_id',
                 'unique'                 => true,
-                'conditions'             => '',
-                'fields'                 => 'id',
-                'order'                  => '',
-                'limit'                  => '',
-                'offset'                 => '',
-                'finderQuery'            => '',
-                'deleteQuery'            => '',
-                'insertQuery'            => ''
+                'fields'                 => 'id'
             )
     );
 	
