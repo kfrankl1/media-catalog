@@ -3,6 +3,7 @@
 // app/Model/User.php
 App::uses('AuthComponent', 'Controller/Component'); // added for acl
 class User extends AppModel {
+	public $helper = array('Text');
 	var $name = "User";
 	var $actsAs = array('Acl' => array('type' => 'requester'), 'HabtmValidatable' => 'Show'); //One field
 	//public $actsAs = array();
@@ -98,6 +99,43 @@ class User extends AppModel {
 			$this->data[$this->alias]['password'] = AuthComponent::password($this->data[$this->alias]['password']);
 		}
 		return true;
+	}
+	
+	public function findAssociatedShows($userId) {
+		$options = array(
+			'joins' => array(
+				array('table' => 'shows_users',
+					'alias' => 'ShowUsers',
+					'type' => 'left',
+					'conditions' => array(
+						'User.id = ShowUsers.user_id'
+					)
+				),
+				array('table' => 'shows',
+					'alias' => 'Show',
+					'type' => 'left',
+					'conditions' => array(
+						'ShowUsers.show_id = Show.id'
+					)
+				)
+			)
+			,'conditions' => array(
+				'ShowUsers.user_id' => $userId
+			)
+			,'fields' => array(
+				'Show.title'
+			)
+			,'recursive' => -1
+		);
+		
+		$showsList = $this->find('all', $options);
+		$result = array();
+		
+		foreach ($showsList as $show):
+			array_push($result, $show['Show']['title']);
+		endforeach;	
+		
+		return $result;
 	}
 }
 

@@ -7,16 +7,16 @@
 ); ?>
 <table>
     <tr>
-        <th>Id</th>
-        <th>Active</th>
-        <th>Show</th>
-        <th>Title</th>
-        <th>Episode Number</th>
-        <th>Original Air Date</th>
-        <th>Season</th>
+        <th><?php echo $this->Paginator->sort('id'); ?></th>
+        <th><?php echo $this->Paginator->sort('is_active'); ?></th>
+        <th><?php echo $this->Paginator->sort('Show.title', 'Show'); ?></th>
+        <th><?php echo $this->Paginator->sort('title'); ?></th>
+        <th><?php echo $this->Paginator->sort('episode_number'); ?></th>
+        <th><?php echo $this->Paginator->sort('original_air_date'); ?></th>
+        <th><?php echo $this->Paginator->sort('Season.title', 'Season'); ?></th>
         <th>Actions</th>
-        <th>Last Modified</th>
-        <th>Modified By</th>
+        <th><?php echo $this->Paginator->sort('modified'); ?></th>
+        <th><?php echo $this->Paginator->sort('modified_by'); ?></th>
     </tr>
 
     <!-- Here is where we loop through our $episodes array, printing out episode info -->

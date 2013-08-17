@@ -1,8 +1,10 @@
 <?php
 
-class EpisodesController extends AppController {	
+class EpisodesController extends AppController {
+	public $helpers = array('Paginator');
+	
 	public function index() {
-		$this->set('episodes', $this->Episode->find('all'));
+		$this->set('episodes', $this->Paginate());
 	}
 
 	public function view($id = null) {

@@ -1,8 +1,10 @@
 <?php
 
 class GenresController extends AppController {	
+	public $helpers = array('Paginator');
+	
 	public function index() {
-		$this->set('genres', $this->Genre->find('all'));
+		$this->set('genres', $this->Paginate());
 	}
 	
 	public function view($id = null) {

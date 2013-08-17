@@ -7,11 +7,11 @@
 ); ?>
 <table>
     <tr>
-        <th>Id</th>
-        <th>Title</th>
+        <th><?php echo $this->Paginator->sort('id'); ?></th>
+        <th><?php echo $this->Paginator->sort('title'); ?></th>
         <th>Actions</th>
-        <th>Last Modified</th>
-        <th>Modified By</th>
+        <th><?php echo $this->Paginator->sort('modified'); ?></th>
+        <th><?php echo $this->Paginator->sort('modified_by'); ?></th>
     </tr>
 
     <!-- Here is where we loop through our $seasons array, printing out post info -->

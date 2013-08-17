@@ -1,14 +1,14 @@
 <?php
 
 class ShowsController extends AppController {
-	public $helpers = array('Text');
+	public $helpers = array('Text', 'Paginator');
 	public $name = 'Shows';
 	
 	public function index() {
-		$this->set('shows', $this->Show->find('all'));
+		$this->set('shows', $this->paginate());
 	}
 
-	public function view($id = null) {		
+	public function view($id = null) {
 		$this->set('genres', $this->Show->findAssociatedGenres($id));
 		
 		if (!$id) {

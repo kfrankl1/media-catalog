@@ -1,10 +1,11 @@
 <?php
 
 class RolesController extends AppController {
+	public $helpers = array('Paginator');
 	public $name = 'Roles';
 	
 	public function index() {
-		$this->set('roles', $this->Role->find('all'));
+		$this->set('roles', $this->Paginate());
 	}
 	
 	public function view($id = null) {

@@ -1,8 +1,10 @@
 <?php
 
 class SeasonsController extends AppController {
+	public $helpers = array('Paginator');
+	
 	public function index() {
-		$this->set('seasons', $this->Season->find('all'));
+		$this->set('seasons', $this->paginate());
 	}
 	
 	public function view($id = null) {

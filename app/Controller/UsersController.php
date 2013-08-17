@@ -2,6 +2,7 @@
 
 // app/Controller/UsersController.php
 class UsersController extends AppController {
+	public $helpers = array('Paginator');
 	public $name = 'Users';
 	
     public function beforeFilter() {
@@ -14,6 +15,7 @@ class UsersController extends AppController {
     public function index() {
         $this->User->recursive = 1;
         $this->set('users', $this->paginate());
+		//$this->set('shows', $this->User->findAssociatedShows($users));
     }
 
     public function view($id = null) {
@@ -22,6 +24,7 @@ class UsersController extends AppController {
             throw new NotFoundException(__('Invalid user'));
         }
         $this->set('user', $this->User->read(null, $id));
+		$this->set('shows', $this->User->findAssociatedShows($id));
     }
 
     public function add() {

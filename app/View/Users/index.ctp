@@ -7,15 +7,15 @@
 ); ?>
 <table>
     <tr>
-        <th>Id</th>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Email</th>
-        <th>Role</th>
+        <th><?php echo $this->Paginator->sort('id'); ?></th>
+        <th><?php echo $this->Paginator->sort('first_name'); ?></th>
+        <th><?php echo $this->Paginator->sort('last_name'); ?></th>
+        <th><?php echo $this->Paginator->sort('username', 'Email'); ?></th>
+        <th><?php echo $this->Paginator->sort('Role.title', 'Role'); ?></th>
         <th>Authorized Shows</th>
         <th>Actions</th>
-        <th>Last Modified</th>
-        <th>Modified By</th>
+        <th><?php echo $this->Paginator->sort('modified'); ?></th>
+        <th><?php echo $this->Paginator->sort('modified_by'); ?></th>
     </tr>
 
     <!-- Here is where we loop through our $users array, printing out post info -->
