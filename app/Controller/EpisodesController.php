@@ -20,7 +20,10 @@ class EpisodesController extends AppController {
 	}
 	
 	public function add() {
-		$this->set('shows', $this->Episode->Show->find('list'));
+		// find a list of shows that belong to the logged in user
+		$user = $this->Auth->user();
+		$shows = $this->Episode->Show->User->findAssociatedShows($user['id']);
+		$this->set('shows', $shows);		
 		$this->set('seasons', $this->Episode->Season->find('list'));
 		
 		if ($this->request->is('post')) {
@@ -31,8 +34,6 @@ class EpisodesController extends AppController {
 			} else {
 					$this->Session->setFlash('Unable to add your episode.');
 			}
-		} else {
-			//$this->data['Episode']['show_id'] = 6;
 		}
 	}
 	
