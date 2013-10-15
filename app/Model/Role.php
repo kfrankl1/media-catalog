@@ -28,6 +28,22 @@ class Role extends AppModel {
     public function parentNode() {
         return null;
     }
+	
+	public function isAuthorized($user) {
+		// Check the user's role, then check that role's permissions.
+		if (isset($user['role_id'])) {
+			$role = $this->User->Role->find('all', array(
+				'conditions' => array('Role.id' => $user['role_id'])
+				,'recursive' => -1
+			));
+			$role = $role[0]['Role'];
+			echo 'Yep';
+			return $role;
+		} else {
+			$this->Session->setFlash('Role not set');
+			return false;
+		}	
+	}
 }
 
 ?>

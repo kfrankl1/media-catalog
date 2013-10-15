@@ -2,8 +2,8 @@
 
 <h1><?php echo h($genre['Genre']['title']); ?></h1>
 
-<p><small>Created: <?php echo $genre['Genre']['created']; ?></small></p>
-<p><small>Last Modified: <?php echo $genre['Genre']['modified']; ?></small></p>
+<p><small>Created on <?php echo $genre['Genre']['created']; ?> by <?php echo $genre['CreatedBy']['first_name'] . " " . $genre['CreatedBy']['last_name'] ?></small></p>
+<p><small>Modified on <?php echo $genre['Genre']['modified']; ?> by <?php echo $genre['ModifiedBy']['first_name'] . " " . $genre['ModifiedBy']['last_name']; ?></small></p>
 
 
 <p><?php echo $this->Html->link('Edit', 

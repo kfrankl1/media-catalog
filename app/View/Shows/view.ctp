@@ -5,8 +5,8 @@
 <p>Description: <?php echo $show['Show']['description']; ?></p>
 <p>Genre(s): <?php echo $this->Text->toList($genres); ?></p>
 
-<p><small>Created: <?php echo $show['Show']['created']; ?></small></p>
-<p><small>Last Modified: <?php echo $show['Show']['modified']; ?></small></p>
+<p><small>Created on <?php echo $show['Show']['created']; ?> by <?php echo $show['CreatedBy']['first_name'] . " " . $show['CreatedBy']['last_name'] ?></small></p>
+<p><small>Modified on <?php echo $show['Show']['modified']; ?> by <?php echo $show['ModifiedBy']['first_name'] . " " . $show['ModifiedBy']['last_name']; ?></small></p>
 
 
 <p><?php echo $this->Html->link('Edit', 

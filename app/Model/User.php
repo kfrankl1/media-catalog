@@ -133,9 +133,106 @@ class User extends AppModel {
 		
 		foreach ($showsList as $show):
 			array_push($result, $show['Show']['title']);
-		endforeach;	
+		endforeach;
 		
 		return $result;
+	}	
+	
+	public function findAuthoredEpisodes($userId) {
+		$options = array(
+			'joins' => array(
+				array('table' => 'shows_users',
+					'alias' => 'ShowUsers',
+					'type' => 'left',
+					'conditions' => array(
+						'User.id = ShowUsers.user_id'
+					)
+				),
+				array('table' => 'shows',
+					'alias' => 'Show',
+					'type' => 'left',
+					'conditions' => array(
+						'ShowUsers.show_id = Show.id'
+					)
+				)
+			)
+			,'conditions' => array(
+				'ShowUsers.user_id' => $userId
+			)
+			,'fields' => array(
+				'Show.title'
+			)
+			,'recursive' => -1
+		);
+		
+		$showsList = $this->find('all', $options);
+		$result = array();
+		
+		foreach ($showsList as $show):
+			array_push($result, $show['Show']['title']);
+		endforeach;
+		
+		return $result;
+	}
+	
+	//public function getPermissions($user) {
+//		// Check the user's role, then check that role's permissions.
+//		if (isset($user['role_id'])) {
+//			$role = $this->User->Role->find('all', array(
+//				'conditions' => array('Role.id' => $user['role_id'])
+//				,'recursive' => -1
+//			));
+//			$role = $role[0]['Role'];
+//			echo 'Yep';
+//			return $role;
+//		} else {
+//			$this->Session->setFlash('Role not set');
+//			return false;
+//		}	
+//	}
+	
+	// Kelsy's version
+	public function isAuthorized($role, $checks = null) {
+		if (isset($checks)) {
+			foreach ($checks as $check):
+				$result[$check] = $role['Role'][$check];
+			endforeach;
+			return $result;
+		} else {
+			$this->Session->setFlash('Role not set');
+			return false;
+		}
+	}
+	
+	public function canEditEpisode($user, $episode)
+	{
+		$checks = array( 
+			'is_edit_any_episode', 
+			'is_edit_authorized_episode',
+			'is_edit_authored_episode'
+		);
+		
+		$auth = $this->isAuthorized(
+			$this->Role->findById($user['role_id']), $checks);
+		
+		if ($auth['is_edit_any_episode']) {
+			// if you can edit any episode, then always return true
+			return true;
+		} else if ($auth['is_edit_authorized_episode']) {
+			// find all of your authorized shows and see if episode id matches
+			$shows = $this->Episode->Show->User->findAssociatedShows($user['id']);
+			foreach ($shows as $show):
+				if ($show['id'] === $episode['Show']['id']) {
+					return true;
+				}
+			endforeach;
+			return false;
+		} else if ($auth['is_edit_authored_episode'] & ($episode['Episode']['created_by'] == $user['id'])) {
+			// if user can edit their own episodes and they created this episode
+			return true;
+		} else {
+			return false;
+		}
 	}
 }
 

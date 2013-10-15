@@ -56,7 +56,7 @@ class AppController extends Controller {
 		//Configure AuthComponent
         //$this->Auth->authorize = 'actions'; // commented out for acl
 		// added four lines for acl
-		$this->Auth->allow('index', 'view'); //'display');
+		//$this->Auth->allow('index', 'view'); //'display');
         $this->Auth->loginAction = array('controller' => 'users', 'action' => 'login');
         $this->Auth->logoutRedirect = array('controller' => 'users', 'action' => 'login');
         $this->Auth->loginRedirect = array('controller' => 'episodes', 'action' => 'index');
@@ -72,14 +72,24 @@ class AppController extends Controller {
 		}
 	}
 	
-	public function isAuthorized($user) {
-		// Admin can access every action
-		if (isset($user['role_id']) && $user['role_id'] == 1) {
-			echo 'True';
-			return true;
-		}
+	//Version that works
+	//public function isAuthorized($user) {	
+//		// Admin can access every action
+//		if (isset($user['role_id']) && $user['role_id'] == 1) {
+//			return true;
+//		}
+//	
+//		// Default deny
+//		return false;
+//	}
 	
-		// Default deny
-		return false;
-	}
+	//For isAuthorized, have an array with all the field names:
+	//$checks = array('isAddUser', 'isEditAnyUser');
+	
+	// Kelsy's version
+	//public function isAuthorized() {
+//		$user = $this->Auth->user('id');
+//		$role = $this->User->Role->findById($user['role_id']);
+//		return $role['Role'];
+//	}
 }

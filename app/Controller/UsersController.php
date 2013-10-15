@@ -10,12 +10,13 @@ class UsersController extends AppController {
 		$this->Auth->allow('login');
 		$this->Auth->allow('logout');
 		//$this->Auth->allow('initDB');
+		$this->Auth->allow('test');
     }
 
     public function index() {
         $this->User->recursive = 1;
         $this->set('users', $this->paginate());
-		//$this->set('shows', $this->User->findAssociatedShows($users));
+		$this->set('shows', $this->User->Show->find('list', array('recursive' => -1)));
     }
 
     public function view($id = null) {
@@ -146,6 +147,33 @@ class UsersController extends AppController {
 		exit;
 	}
 	
+	public function test() {
+		$checks = array(
+			'is_add_user', 
+			'is_edit_any_user',
+			'is_edit_any_user_role', 
+			'is_edit_any_role', 
+			'is_make_any_user_inactive', 
+			'is_add_show', 
+			'is_edit_any_show', 
+			'is_make_any_show_inactive', 
+			'is_add_any_episode', 
+			'is_add_authorized_episode', 
+			'is_edit_any_episode', 
+			'is_edit_authored_episode', 
+			'is_edit_settings'
+		);
+		
+		$this->set('checks', $checks);
+		$result = $this->isAuthorized($checks);
+		$this->set('result', $result);
+		
+		if ($result['is_add_user']) {
+			echo pr('True');
+		} else {
+			echo pr('False');
+		}
+	}
 }
 
 ?>

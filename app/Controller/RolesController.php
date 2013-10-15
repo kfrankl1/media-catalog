@@ -1,7 +1,7 @@
 <?php
 
 class RolesController extends AppController {
-	public $helpers = array('Paginator');
+	public $helpers = array('Paginator', 'UI');
 	public $name = 'Roles';
 	
 	public function index() {

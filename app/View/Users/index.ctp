@@ -12,7 +12,6 @@
         <th><?php echo $this->Paginator->sort('last_name'); ?></th>
         <th><?php echo $this->Paginator->sort('username', 'Email'); ?></th>
         <th><?php echo $this->Paginator->sort('Role.title', 'Role'); ?></th>
-        <th>Authorized Shows</th>
         <th>Actions</th>
         <th><?php echo $this->Paginator->sort('modified'); ?></th>
         <th><?php echo $this->Paginator->sort('modified_by'); ?></th>
@@ -30,7 +29,6 @@
 							array('controller' => 'users', 'action' => 'view', $user['User']['id'])); ?>
         </td>
         <td><?php echo $user['Role']['title']; ?></td>
-        <td><?php //echo $this->Text->toList($shows); ?></td>
         <td>
             <?php echo $this->Form->postLink(
                 'Delete',

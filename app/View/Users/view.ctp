@@ -1,13 +1,12 @@
 <!-- File: /app/View/Users/view.ctp -->
 
-<h1><?php echo h($user['User']['username']); ?></h1>
-<p>Name: <?php echo $user['User']['first_name'] . " " . $user['User']['last_name']; ?></p>
+<h1><?php echo h($user['User']['first_name'] . " " . $user['User']['last_name']); ?></h1>
 <p>Email: <?php echo $user['User']['username']; ?></p>
 <p>Role: <?php echo $user['Role']['title']; ?></p>
-<p>Authorized Show(s): <?php echo $this->Text->toList($shows); ?></p>
+<p>Authorized shows(s): <?php echo $this->Text->toList($shows); ?></p>
 
-<p><small>Created: <?php echo $user['User']['created']; ?></small></p>
-<p><small>Last Modified: <?php echo $user['User']['modified']; ?></small></p>
+<p><small>Created on <?php echo $user['User']['created']; ?> by <?php echo $user['CreatedBy']['first_name'] . " " . $user['CreatedBy']['last_name'] ?></small></p>
+<p><small>Modified on <?php echo $user['User']['modified']; ?> by <?php echo $user['ModifiedBy']['first_name'] . " " . $user['ModifiedBy']['last_name']; ?></small></p>
 
 
 <p><?php echo $this->Html->link('Edit', 

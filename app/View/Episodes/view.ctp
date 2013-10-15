@@ -7,8 +7,8 @@
 <p>Long Description: <?php echo $episode['Episode']['long_description']; ?></p>
 <p>Original Air Date: <?php echo $episode['Episode']['original_air_date']; ?></p>
 
-<p><small>Created: <?php echo $episode['Episode']['created']; ?></small></p>
-<p><small>Last Modified: <?php echo $episode['Episode']['modified']; ?></small></p>
+<p><small>Created on <?php echo $episode['Episode']['created']; ?> by <?php echo $episode['CreatedBy']['first_name'] . " " . $episode['CreatedBy']['last_name'] ?></small></p>
+<p><small>Modified on <?php echo $episode['Episode']['modified']; ?> by <?php echo $episode['ModifiedBy']['first_name'] . " " . $episode['ModifiedBy']['last_name']; ?></small></p>
 
 
 <p><?php if ($episode['Episode']['created_by'] == AuthComponent::user('id')

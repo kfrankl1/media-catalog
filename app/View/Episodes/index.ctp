@@ -1,6 +1,7 @@
 <!-- File: /app/View/Episodes/index.ctp -->
 
 <h1>Episodes</h1>
+
 <?php echo $this->Html->link(
     'Add Episode',
     array('controller' => 'episodes', 'action' => 'add')
@@ -46,11 +47,20 @@
 						array('confirm' => 'Are you sure?'));
 				}
             ?>
-            <?php			
-				if ($episode['Episode']['created_by'] == AuthComponent::user('id')
-					| AuthComponent::user('role_id') === '1') {
-					echo $this->Html->link('Edit', array('action' => 'edit', $episode['Episode']['id'])); 
+            <?php
+				if ($permissions[$episode['Episode']['id']]) {
+					echo $this->Html->link('Edit', array('action' => 'edit', $episode['Episode']['id']));
 				}
+				// check if episode was created by or is authorized for the user	
+	//			if ($this->canEditEpisode($episode)) {
+//					//echo $this->Html->link('Edit', array('action' => 'edit', $episode['Episode']['id'])); 
+//				}
+					
+				// leave alone--sorta works! UCoE ----------------------------------------------------------------------------
+				//if ($episode['Episode']['created_by'] == AuthComponent::user('id')
+//					| AuthComponent::user('role_id') === '1') {
+//					echo $this->Html->link('Edit', array('action' => 'edit', $episode['Episode']['id'])); 
+//				}
 			?>
         </td>
         <td><?php echo $episode['Episode']['modified']; ?></td>

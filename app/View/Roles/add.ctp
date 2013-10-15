@@ -12,9 +12,11 @@
 	echo $this->Form->input('is_add_show', array('type' => 'checkbox'));
 	echo $this->Form->input('is_edit_any_show', array('type' => 'checkbox'));
 	echo $this->Form->input('is_make_any_show_inactive', array('type' => 'checkbox'));
-	echo $this->Form->input('is_add_episode', array('type' => 'checkbox'));
+	echo $this->Form->input('is_add_any_episode', array('type' => 'checkbox'));
+	echo $this->Form->input('is_add_authorized_episode', array('type' => 'checkbox'));
 	echo $this->Form->input('is_edit_any_episode', array('type' => 'checkbox'));
 	echo $this->Form->input('is_edit_authored_episode', array('type' => 'checkbox'));
+	echo $this->Form->input('is_edit_authorized_episode', array('type' => 'checkbox'));
 	echo $this->Form->input('is_edit_settings', array('type' => 'checkbox'));
 	echo $this->Form->end('Save Role');
 ?>
