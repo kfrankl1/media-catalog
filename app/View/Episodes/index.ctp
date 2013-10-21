@@ -36,11 +36,11 @@
 							array('controller' => 'episodes', 'action' => 'view', $episode['Episode']['id'])); ?>
         </td>
         <td><?php echo $episode['Episode']['episode_number']; ?></td>
-        <td><?php echo $episode['Episode']['original_air_date']; ?></td>
+        <td><?php echo $this->Time->format($episode['Episode']['original_air_date'], $timeFormat); ?></td>
         <td><?php echo $episode['Season']['title']; ?></td>
         <td>
             <?php
-            	if (AuthComponent::user('role_id') === '1') {
+				if ($canEditStatus[$episode['Episode']['id']]) {
 					echo $this->Form->postLink(
 						'Delete',
 						array('action' => 'delete', $episode['Episode']['id']),
@@ -48,22 +48,12 @@
 				}
             ?>
             <?php
-				if ($permissions[$episode['Episode']['id']]) {
+				if ($canEditEpisode[$episode['Episode']['id']]) {
 					echo $this->Html->link('Edit', array('action' => 'edit', $episode['Episode']['id']));
 				}
-				// check if episode was created by or is authorized for the user	
-	//			if ($this->canEditEpisode($episode)) {
-//					//echo $this->Html->link('Edit', array('action' => 'edit', $episode['Episode']['id'])); 
-//				}
-					
-				// leave alone--sorta works! UCoE ----------------------------------------------------------------------------
-				//if ($episode['Episode']['created_by'] == AuthComponent::user('id')
-//					| AuthComponent::user('role_id') === '1') {
-//					echo $this->Html->link('Edit', array('action' => 'edit', $episode['Episode']['id'])); 
-//				}
 			?>
         </td>
-        <td><?php echo $episode['Episode']['modified']; ?></td>
+        <td><?php echo $this->Time->format($episode['Episode']['modified'], $timeFormat); ?></td>
         <td>
 			<?php echo $this->Html->link(
 							$episode['ModifiedBy']['first_name'] . " " . $episode['ModifiedBy']['last_name'],

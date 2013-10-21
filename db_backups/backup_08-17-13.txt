@@ -1,0 +1,411 @@
+-- phpMyAdmin SQL Dump
+-- version 3.3.9.2
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Aug 17, 2013 at 02:45 PM
+-- Server version: 5.5.9
+-- PHP Version: 5.3.5
+
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+
+--
+-- Database: `hopscotch`
+-- Backup: 8/17/13 2:46 PM
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `acos`
+--
+
+CREATE TABLE `acos` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `parent_id` int(10) DEFAULT NULL,
+  `model` varchar(255) DEFAULT NULL,
+  `foreign_key` int(10) DEFAULT NULL,
+  `alias` varchar(255) DEFAULT NULL,
+  `lft` int(10) DEFAULT NULL,
+  `rght` int(10) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=43 ;
+
+--
+-- Dumping data for table `acos`
+--
+
+INSERT INTO `acos` VALUES(1, NULL, NULL, NULL, 'controllers', 1, 84);
+INSERT INTO `acos` VALUES(2, 1, NULL, NULL, 'Episodes', 2, 13);
+INSERT INTO `acos` VALUES(3, 2, NULL, NULL, 'index', 3, 4);
+INSERT INTO `acos` VALUES(4, 2, NULL, NULL, 'view', 5, 6);
+INSERT INTO `acos` VALUES(5, 2, NULL, NULL, 'add', 7, 8);
+INSERT INTO `acos` VALUES(6, 2, NULL, NULL, 'edit', 9, 10);
+INSERT INTO `acos` VALUES(7, 2, NULL, NULL, 'delete', 11, 12);
+INSERT INTO `acos` VALUES(8, 1, NULL, NULL, 'Genres', 14, 25);
+INSERT INTO `acos` VALUES(9, 8, NULL, NULL, 'index', 15, 16);
+INSERT INTO `acos` VALUES(10, 8, NULL, NULL, 'view', 17, 18);
+INSERT INTO `acos` VALUES(11, 8, NULL, NULL, 'add', 19, 20);
+INSERT INTO `acos` VALUES(12, 8, NULL, NULL, 'edit', 21, 22);
+INSERT INTO `acos` VALUES(13, 8, NULL, NULL, 'delete', 23, 24);
+INSERT INTO `acos` VALUES(14, 1, NULL, NULL, 'Pages', 26, 29);
+INSERT INTO `acos` VALUES(15, 14, NULL, NULL, 'display', 27, 28);
+INSERT INTO `acos` VALUES(16, 1, NULL, NULL, 'Roles', 30, 41);
+INSERT INTO `acos` VALUES(17, 16, NULL, NULL, 'index', 31, 32);
+INSERT INTO `acos` VALUES(18, 16, NULL, NULL, 'view', 33, 34);
+INSERT INTO `acos` VALUES(19, 16, NULL, NULL, 'add', 35, 36);
+INSERT INTO `acos` VALUES(20, 16, NULL, NULL, 'edit', 37, 38);
+INSERT INTO `acos` VALUES(21, 16, NULL, NULL, 'delete', 39, 40);
+INSERT INTO `acos` VALUES(22, 1, NULL, NULL, 'Seasons', 42, 53);
+INSERT INTO `acos` VALUES(23, 22, NULL, NULL, 'index', 43, 44);
+INSERT INTO `acos` VALUES(24, 22, NULL, NULL, 'view', 45, 46);
+INSERT INTO `acos` VALUES(25, 22, NULL, NULL, 'add', 47, 48);
+INSERT INTO `acos` VALUES(26, 22, NULL, NULL, 'edit', 49, 50);
+INSERT INTO `acos` VALUES(27, 22, NULL, NULL, 'delete', 51, 52);
+INSERT INTO `acos` VALUES(28, 1, NULL, NULL, 'Shows', 54, 65);
+INSERT INTO `acos` VALUES(29, 28, NULL, NULL, 'index', 55, 56);
+INSERT INTO `acos` VALUES(30, 28, NULL, NULL, 'view', 57, 58);
+INSERT INTO `acos` VALUES(31, 28, NULL, NULL, 'add', 59, 60);
+INSERT INTO `acos` VALUES(32, 28, NULL, NULL, 'edit', 61, 62);
+INSERT INTO `acos` VALUES(33, 28, NULL, NULL, 'delete', 63, 64);
+INSERT INTO `acos` VALUES(34, 1, NULL, NULL, 'Users', 66, 81);
+INSERT INTO `acos` VALUES(35, 34, NULL, NULL, 'index', 67, 68);
+INSERT INTO `acos` VALUES(36, 34, NULL, NULL, 'view', 69, 70);
+INSERT INTO `acos` VALUES(37, 34, NULL, NULL, 'add', 71, 72);
+INSERT INTO `acos` VALUES(38, 34, NULL, NULL, 'edit', 73, 74);
+INSERT INTO `acos` VALUES(39, 34, NULL, NULL, 'delete', 75, 76);
+INSERT INTO `acos` VALUES(40, 34, NULL, NULL, 'login', 77, 78);
+INSERT INTO `acos` VALUES(41, 34, NULL, NULL, 'logout', 79, 80);
+INSERT INTO `acos` VALUES(42, 1, NULL, NULL, 'AclExtras', 82, 83);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `aros`
+--
+
+CREATE TABLE `aros` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `parent_id` int(10) DEFAULT NULL,
+  `model` varchar(255) DEFAULT NULL,
+  `foreign_key` int(10) DEFAULT NULL,
+  `alias` varchar(255) DEFAULT NULL,
+  `lft` int(10) DEFAULT NULL,
+  `rght` int(10) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
+
+--
+-- Dumping data for table `aros`
+--
+
+INSERT INTO `aros` VALUES(1, NULL, 'Role', 1, NULL, 1, 4);
+INSERT INTO `aros` VALUES(2, NULL, 'Role', 2, NULL, 5, 12);
+INSERT INTO `aros` VALUES(3, NULL, 'Role', 3, NULL, 13, 16);
+INSERT INTO `aros` VALUES(4, NULL, 'Role', 4, NULL, 17, 22);
+INSERT INTO `aros` VALUES(5, 1, 'User', 1, NULL, 2, 3);
+INSERT INTO `aros` VALUES(6, 2, 'User', 2, NULL, 6, 7);
+INSERT INTO `aros` VALUES(7, 3, 'User', 3, NULL, 14, 15);
+INSERT INTO `aros` VALUES(8, 2, 'User', 4, NULL, 8, 9);
+INSERT INTO `aros` VALUES(9, 4, 'User', 5, NULL, 18, 19);
+INSERT INTO `aros` VALUES(10, 4, 'User', 6, NULL, 20, 21);
+INSERT INTO `aros` VALUES(11, 2, 'User', 7, NULL, 10, 11);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `aros_acos`
+--
+
+CREATE TABLE `aros_acos` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `aro_id` int(10) NOT NULL,
+  `aco_id` int(10) NOT NULL,
+  `_create` varchar(2) NOT NULL DEFAULT '0',
+  `_read` varchar(2) NOT NULL DEFAULT '0',
+  `_update` varchar(2) NOT NULL DEFAULT '0',
+  `_delete` varchar(2) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `ARO_ACO_KEY` (`aro_id`,`aco_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=30 ;
+
+--
+-- Dumping data for table `aros_acos`
+--
+
+INSERT INTO `aros_acos` VALUES(1, 1, 1, '1', '1', '1', '1');
+INSERT INTO `aros_acos` VALUES(2, 2, 1, '-1', '-1', '-1', '-1');
+INSERT INTO `aros_acos` VALUES(3, 2, 2, '1', '1', '1', '1');
+INSERT INTO `aros_acos` VALUES(4, 2, 8, '1', '1', '1', '1');
+INSERT INTO `aros_acos` VALUES(5, 2, 22, '1', '1', '1', '1');
+INSERT INTO `aros_acos` VALUES(6, 2, 28, '1', '1', '1', '1');
+INSERT INTO `aros_acos` VALUES(7, 2, 37, '1', '1', '1', '1');
+INSERT INTO `aros_acos` VALUES(8, 2, 35, '1', '1', '1', '1');
+INSERT INTO `aros_acos` VALUES(9, 2, 41, '1', '1', '1', '1');
+INSERT INTO `aros_acos` VALUES(10, 2, 36, '1', '1', '1', '1');
+INSERT INTO `aros_acos` VALUES(11, 3, 1, '-1', '-1', '-1', '-1');
+INSERT INTO `aros_acos` VALUES(12, 3, 5, '1', '1', '1', '1');
+INSERT INTO `aros_acos` VALUES(13, 3, 6, '1', '1', '1', '1');
+INSERT INTO `aros_acos` VALUES(14, 3, 3, '1', '1', '1', '1');
+INSERT INTO `aros_acos` VALUES(15, 3, 4, '1', '1', '1', '1');
+INSERT INTO `aros_acos` VALUES(16, 3, 32, '1', '1', '1', '1');
+INSERT INTO `aros_acos` VALUES(17, 3, 29, '1', '1', '1', '1');
+INSERT INTO `aros_acos` VALUES(18, 3, 30, '1', '1', '1', '1');
+INSERT INTO `aros_acos` VALUES(19, 4, 1, '-1', '-1', '-1', '-1');
+INSERT INTO `aros_acos` VALUES(20, 4, 9, '1', '1', '1', '1');
+INSERT INTO `aros_acos` VALUES(21, 4, 10, '1', '1', '1', '1');
+INSERT INTO `aros_acos` VALUES(22, 4, 23, '1', '1', '1', '1');
+INSERT INTO `aros_acos` VALUES(23, 4, 24, '1', '1', '1', '1');
+INSERT INTO `aros_acos` VALUES(24, 4, 29, '1', '1', '1', '1');
+INSERT INTO `aros_acos` VALUES(25, 4, 30, '1', '1', '1', '1');
+INSERT INTO `aros_acos` VALUES(26, 4, 5, '1', '1', '1', '1');
+INSERT INTO `aros_acos` VALUES(27, 4, 6, '1', '1', '1', '1');
+INSERT INTO `aros_acos` VALUES(28, 4, 3, '1', '1', '1', '1');
+INSERT INTO `aros_acos` VALUES(29, 4, 4, '1', '1', '1', '1');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `episodes`
+--
+
+CREATE TABLE `episodes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `is_active` tinyint(4) NOT NULL DEFAULT '1',
+  `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `short_description` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `long_description` text COLLATE utf8_unicode_ci NOT NULL,
+  `episode_number` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `original_air_date` date NOT NULL,
+  `still_image_file` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `episode_file` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `show_id` int(11) NOT NULL,
+  `season_id` int(11) DEFAULT NULL,
+  `created_by` int(11) NOT NULL,
+  `modified_by` int(11) NOT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=5 ;
+
+--
+-- Dumping data for table `episodes`
+--
+
+INSERT INTO `episodes` VALUES(1, 1, 'Pilot', 'A short description.', 'A longer description.', '101', '2013-06-14', '', '', 1, 2, 1, 1, '2013-06-15 10:56:00', '2013-06-22 18:29:36');
+INSERT INTO `episodes` VALUES(2, 1, 'Who You Gonna Call?', 'The first of many!', 'I hope so at least...', '101', '2013-06-15', NULL, NULL, 3, 1, 1, 1, '2013-06-15 12:16:41', '2013-08-01 19:31:01');
+INSERT INTO `episodes` VALUES(3, 1, 'The One Where They''re On A Break', 'Will Ross and Rachel ever make it work?', 'An episode of Friends!  Not actually related to any ICTV show.', '102', '2013-07-19', NULL, NULL, 7, 2, 1, 1, '2013-07-19 19:51:02', '2013-07-19 19:51:02');
+INSERT INTO `episodes` VALUES(4, 1, 'The One With All The Proposals', 'Friends!', 'I may have made this title up.  Yep.  I did make this title up.', '103', '2013-07-19', NULL, NULL, 7, 1, 5, 5, '2013-07-19 19:52:07', '2013-07-31 20:30:07');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `genres`
+--
+
+CREATE TABLE `genres` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `created_by` int(11) NOT NULL,
+  `modified_by` int(11) NOT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+
+--
+-- Dumping data for table `genres`
+--
+
+INSERT INTO `genres` VALUES(1, 'Comedy', 1, 1, '2013-06-18 20:39:48', '2013-06-18 20:39:57');
+INSERT INTO `genres` VALUES(2, 'Game Show', 1, 1, '2013-06-18 20:40:03', '2013-06-18 20:40:03');
+INSERT INTO `genres` VALUES(3, 'Magazine', 1, 1, '2013-06-18 20:40:09', '2013-06-18 20:40:09');
+INSERT INTO `genres` VALUES(4, 'News', 1, 1, '2013-06-18 20:40:14', '2013-06-18 20:40:14');
+INSERT INTO `genres` VALUES(5, 'Drama', 1, 1, '2013-06-18 20:40:19', '2013-06-18 20:40:19');
+INSERT INTO `genres` VALUES(6, 'Sports', 1, 1, '2013-06-18 20:40:31', '2013-06-18 20:40:31');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `genres_shows`
+--
+
+CREATE TABLE `genres_shows` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `genre_id` int(11) NOT NULL,
+  `show_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=65 ;
+
+--
+-- Dumping data for table `genres_shows`
+--
+
+INSERT INTO `genres_shows` VALUES(4, 2, 3);
+INSERT INTO `genres_shows` VALUES(5, 4, 6);
+INSERT INTO `genres_shows` VALUES(11, 1, 2);
+INSERT INTO `genres_shows` VALUES(12, 3, 2);
+INSERT INTO `genres_shows` VALUES(13, 3, 1);
+INSERT INTO `genres_shows` VALUES(14, 4, 1);
+INSERT INTO `genres_shows` VALUES(51, 2, 7);
+INSERT INTO `genres_shows` VALUES(60, 1, 10);
+INSERT INTO `genres_shows` VALUES(61, 5, 10);
+INSERT INTO `genres_shows` VALUES(63, 2, 8);
+INSERT INTO `genres_shows` VALUES(64, 5, 8);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `roles`
+--
+
+CREATE TABLE `roles` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `is_active` tinyint(4) NOT NULL DEFAULT '1',
+  `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
+  `is_add_user` tinyint(4) NOT NULL DEFAULT '0',
+  `is_edit_any_user` tinyint(4) NOT NULL DEFAULT '0',
+  `is_edit_any_user_role` tinyint(4) NOT NULL DEFAULT '0',
+  `is_edit_any_role` tinyint(4) NOT NULL DEFAULT '0',
+  `is_make_any_user_inactive` tinyint(4) NOT NULL DEFAULT '0',
+  `is_add_show` tinyint(4) NOT NULL DEFAULT '0',
+  `is_edit_any_show` tinyint(4) NOT NULL DEFAULT '0',
+  `is_make_any_show_inactive` tinyint(4) NOT NULL DEFAULT '0',
+  `is_add_episode` tinyint(4) NOT NULL DEFAULT '0',
+  `is_edit_any_episode` tinyint(4) NOT NULL DEFAULT '0',
+  `is_edit_authored_episode` tinyint(4) NOT NULL DEFAULT '0',
+  `is_edit_settings` tinyint(4) NOT NULL DEFAULT '0',
+  `created_by` int(11) NOT NULL,
+  `modified_by` int(11) NOT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=5 ;
+
+--
+-- Dumping data for table `roles`
+--
+
+INSERT INTO `roles` VALUES(1, 1, 'Admin', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, '2013-06-14 00:00:00', '2013-08-17 14:02:34');
+INSERT INTO `roles` VALUES(2, 1, 'Producer', 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, '2013-06-14 00:00:00', '2013-06-16 12:05:35');
+INSERT INTO `roles` VALUES(3, 1, 'Support', 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, '2013-06-14 00:00:00', '2013-06-16 12:06:29');
+INSERT INTO `roles` VALUES(4, 1, 'Crew', 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, '2013-06-15 11:32:41', '2013-06-18 20:06:27');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `seasons`
+--
+
+CREATE TABLE `seasons` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `created_by` int(11) NOT NULL,
+  `modified_by` int(11) NOT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `title` (`title`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `seasons`
+--
+
+INSERT INTO `seasons` VALUES(1, 'Summer 2013', 1, 1, '2013-06-22 18:19:01', '2013-06-22 18:19:01');
+INSERT INTO `seasons` VALUES(2, 'Fall 2013', 1, 1, '2013-06-22 18:29:23', '2013-06-22 18:29:23');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `shows`
+--
+
+CREATE TABLE `shows` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `is_active` tinyint(4) NOT NULL DEFAULT '1',
+  `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `tagline` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `description` mediumtext COLLATE utf8_unicode_ci NOT NULL,
+  `created_by` int(11) NOT NULL,
+  `modified_by` int(11) NOT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `title` (`title`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=11 ;
+
+--
+-- Dumping data for table `shows`
+--
+
+INSERT INTO `shows` VALUES(1, 1, 'Panorama', 'Explore your surroundings.', 'Take a look at what Tompkins County and the surrounding area has to offer.', 1, 1, '2013-04-21 17:36:05', '2013-08-06 20:54:32');
+INSERT INTO `shows` VALUES(2, 1, 'Game Over', 'One-stop shop for geek culture.', 'Video game, movie, comic, toy, and tech reviews.', 1, 1, '2013-04-21 17:36:14', '2013-07-31 20:41:23');
+INSERT INTO `shows` VALUES(3, 1, 'Pop Quiz', 'Are you King or Queen of Pop Culture?', 'Contestants battle to get the crown for King or Queen of Pop Culture.', 1, 1, '2013-04-21 17:46:57', '2013-06-18 21:11:08');
+INSERT INTO `shows` VALUES(6, 1, 'Newswatch 16', 'Your local news now.', 'The only local news station for Tompkins County, NY.', 1, 1, '2013-05-18 21:02:40', '2013-06-18 21:11:46');
+INSERT INTO `shows` VALUES(7, 1, 'Fake Out', 'B.S. at its best.', 'Contestants guess who''s lying to see whom can sniff out the B.S.!', 1, 1, '2013-06-15 17:15:07', '2013-08-11 17:30:34');
+INSERT INTO `shows` VALUES(8, 1, 'Suspicion', 'Whodunnit?', 'Can you pick the murderer from the normals?', 1, 1, '2013-08-06 20:57:53', '2013-08-15 21:42:23');
+INSERT INTO `shows` VALUES(9, 1, 'Frequency', 'The music is here.', 'A show about terrible live music.', 1, 1, '2013-08-07 21:18:41', '2013-08-07 21:28:12');
+INSERT INTO `shows` VALUES(10, 1, 'Dance on Friday', 'When is it?', 'Middle school is rough.', 1, 1, '2013-08-07 21:29:20', '2013-08-11 18:17:57');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `shows_users`
+--
+
+CREATE TABLE `shows_users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `show_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
+
+--
+-- Dumping data for table `shows_users`
+--
+
+INSERT INTO `shows_users` VALUES(3, 1, 7);
+INSERT INTO `shows_users` VALUES(7, 6, 5);
+INSERT INTO `shows_users` VALUES(8, 3, 5);
+INSERT INTO `shows_users` VALUES(9, 7, 4);
+INSERT INTO `shows_users` VALUES(10, 3, 4);
+INSERT INTO `shows_users` VALUES(11, 8, 4);
+INSERT INTO `shows_users` VALUES(12, 6, 3);
+INSERT INTO `shows_users` VALUES(13, 8, 3);
+INSERT INTO `shows_users` VALUES(14, 1, 2);
+INSERT INTO `shows_users` VALUES(15, 6, 6);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `is_active` tinyint(4) NOT NULL DEFAULT '1',
+  `first_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `last_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `username` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `password` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `role_id` int(11) NOT NULL,
+  `created_by` int(11) NOT NULL,
+  `modified_by` int(11) NOT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`,`first_name`,`last_name`,`username`,`password`,`role_id`,`created`,`modified`),
+  UNIQUE KEY `username` (`username`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=8 ;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` VALUES(1, 1, 'Kelsy', 'Franklin', 'kelsyfranklin@gmail.com', 'b728f8c1ca12884d3b105bd23cb091ca978bb375', 1, 1, 1, '2013-05-18 17:21:28', '2013-08-15 21:08:12');
+INSERT INTO `users` VALUES(2, 1, 'J.P.', 'Mosca', 'jpmosca@gmail.com', 'b728f8c1ca12884d3b105bd23cb091ca978bb375', 2, 1, 1, '2013-06-14 19:36:30', '2013-08-16 19:33:28');
+INSERT INTO `users` VALUES(3, 1, 'Ryan', 'Sager', 'ryansager@gmail.com', 'b728f8c1ca12884d3b105bd23cb091ca978bb375', 3, 1, 1, '2013-06-14 21:26:42', '2013-08-16 19:33:20');
+INSERT INTO `users` VALUES(4, 1, 'Amy', 'Wiggins', 'amywiggins@gmail.com', 'b728f8c1ca12884d3b105bd23cb091ca978bb375', 2, 1, 1, '2013-06-15 09:42:04', '2013-08-16 19:33:11');
+INSERT INTO `users` VALUES(5, 1, 'Kylene', 'Planer', 'kyleneplaner@gmail.com', 'b728f8c1ca12884d3b105bd23cb091ca978bb375', 4, 1, 1, '2013-07-18 18:33:16', '2013-08-16 19:33:01');
+INSERT INTO `users` VALUES(6, 1, 'Ginny', 'Van de Wall', 'ginnyvandewall@gmail.com', 'b728f8c1ca12884d3b105bd23cb091ca978bb375', 4, 1, 1, '2013-08-11 20:58:08', '2013-08-16 19:33:35');
+INSERT INTO `users` VALUES(7, 1, 'Nick', 'Righi', 'nickrighi@gmail.com', '282bea95aa35588d6c48d6c026ffcf04be8a8d72', 2, 1, 1, '2013-08-15 21:47:08', '2013-08-15 22:10:17');

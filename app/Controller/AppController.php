@@ -32,7 +32,6 @@ App::uses('Controller', 'Controller');
  * @link		http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {
-	
 	public $components = array(
 		'Session'
 		,'Acl'
@@ -45,8 +44,8 @@ class AppController extends Controller {
 		)
 	);
 
-    public $helpers = array('Html', 'Form', 'Session');
-	
+    public $helpers = array('Html', 'Form', 'Session', 'Time');
+		
 	/**
 	* beforeFilter - added 6/16/13 - KF
 	**/
@@ -70,6 +69,10 @@ class AppController extends Controller {
 		if ($userId = $this->Auth->user('id')) {
 			$this->{$this->modelClass}->userId = $userId;
 		}
+		
+		// Set common variables
+		$timeFormat = '%Y-%m-%d';
+		$this->set('timeFormat', $timeFormat);
 	}
 	
 	//Version that works

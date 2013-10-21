@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 // app/Model/User.php
 App::uses('AuthComponent', 'Controller/Component'); // added for acl
@@ -175,23 +175,41 @@ class User extends AppModel {
 		return $result;
 	}
 	
-	//public function getPermissions($user) {
-//		// Check the user's role, then check that role's permissions.
-//		if (isset($user['role_id'])) {
-//			$role = $this->User->Role->find('all', array(
-//				'conditions' => array('Role.id' => $user['role_id'])
-//				,'recursive' => -1
-//			));
-//			$role = $role[0]['Role'];
-//			echo 'Yep';
-//			return $role;
-//		} else {
-//			$this->Session->setFlash('Role not set');
-//			return false;
-//		}	
-//	}
+
+
+	/**
+	 * Checks the user's role to see what permission the user has.
+	 * Returns true or false
+	 ***********************
+	 Example:
+		$checks = array(
+			'is_add_user', 
+			'is_edit_any_user',
+			'is_edit_any_user_role', 
+			'is_edit_any_role', 
+			'is_make_any_user_inactive', 
+			'is_add_show', 
+			'is_edit_any_show', 
+			'is_make_any_show_inactive', 
+			'is_add_any_episode', 
+			'is_add_authorized_episode', 
+			'is_edit_any_episode', 
+			'is_edit_authorized_episode', 
+			'is_edit_authored_episode', 
+			'is_edit_settings'
+		);
+		
+		$this->set('checks', $checks);
+		$result = $this->Episode->Show->User->isAuthorized($checks);
+		$this->set('result', $result);
+		
+		if ($result['is_add_user']) {
+			echo pr('True');
+		} else {
+			echo pr('False');
+		}
+	 */
 	
-	// Kelsy's version
 	public function isAuthorized($role, $checks = null) {
 		if (isset($checks)) {
 			foreach ($checks as $check):
@@ -204,6 +222,10 @@ class User extends AppModel {
 		}
 	}
 	
+	/**
+	 * Checks to see if the user can edit the episode.
+	 * Based on the user's role's permissions and if the user has authored the specific episode.
+	 */
 	public function canEditEpisode($user, $episode)
 	{
 		$checks = array( 
@@ -230,6 +252,37 @@ class User extends AppModel {
 		} else if ($auth['is_edit_authored_episode'] & ($episode['Episode']['created_by'] == $user['id'])) {
 			// if user can edit their own episodes and they created this episode
 			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	/**
+	 * Checks to see if the user can edit the episodes status (is_active).
+	 * Based on user's role's permissions and if the episode falls under the user's authorized shows.
+	 */
+	public function canEditEpisodeStatus($user, $episode)
+	{
+		$checks = array( 
+			'is_edit_any_episode_status'
+			,'is_edit_authorized_episode_status'
+		);
+		
+		$auth = $this->isAuthorized(
+			$this->Role->findById($user['role_id']), $checks);
+		
+		if ($auth['is_edit_any_episode_status']) {
+			// if you can change the status of any episode, then always return true
+			return true;
+		} else if ($auth['is_edit_authorized_episode_status']) {
+			// find all of your authorized shows and see if episode id matches
+			$shows = $this->Episode->Show->User->findAssociatedShows($user['id']);
+			foreach ($shows as $show):
+				if ($show['id'] === $episode['Show']['id']) {
+					return true;
+				}
+			endforeach;
+			return false;
 		} else {
 			return false;
 		}

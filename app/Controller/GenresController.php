@@ -4,7 +4,11 @@ class GenresController extends AppController {
 	public $helpers = array('Paginator');
 	
 	public function index() {
+		$user = $this->Auth->user();
 		$this->set('genres', $this->Paginate());
+		$checks = array('is_add_edit_genre');
+		$canAddEditGenre = $this->Genre->Show->User->isAuthorized($this->Genre->Show->User->Role->findById($user['role_id']), $checks);
+		$this->set('canAddEditGenre', $canAddEditGenre['is_add_edit_genre']);
 	}
 	
 	public function view($id = null) {
@@ -17,6 +21,11 @@ class GenresController extends AppController {
 			throw new NotFoundException(__('Invalid genre'));
 		}
 		$this->set('genre', $genre);
+		
+		$user = $this->Auth->user;		
+		$checks = array('is_add_edit_genre');
+		$canAddEditGenre = $this->Genre->Show->User->isAuthorized($user['Role']['id'], $checks);
+		$this->set('canAddEditGenre', $canAddEditGenre['is_add_edit_genre']);
 	}
 	
 	public function add() {

@@ -1,10 +1,11 @@
 <!-- File: /app/View/Genres/index.ctp -->
 
 <h1>Genres</h1>
-<?php echo $this->Html->link(
-    'Add Genre',
-    array('controller' => 'genres', 'action' => 'add')
-); ?>
+<?php if ($canAddEditGenre) {
+	echo $this->Html->link(
+		'Add Genre', array('controller' => 'genres', 'action' => 'add')
+	); 
+} ?>
 <table>
     <tr>
         <th><?php echo $this->Paginator->sort('id'); ?></th>
@@ -24,14 +25,17 @@
 							array('controller' => 'genres', 'action' => 'view', $genre['Genre']['id'])); ?>
         </td>
         <td>
-            <?php echo $this->Form->postLink(
+            <?php /*echo $this->Form->postLink(
                 'Delete',
                 array('action' => 'delete', $genre['Genre']['id']),
-                array('confirm' => 'Are you sure?'));
+                array('confirm' => 'Are you sure?')); */
             ?>
-            <?php echo $this->Html->link('Edit', array('action' => 'edit', $genre['Genre']['id'])); ?>
+            <?php
+				if ($canAddEditGenre) {
+					echo $this->Html->link('Edit', array('action' => 'edit', $genre['Genre']['id']));
+				} ?>
         </td>
-        <td><?php echo $genre['Genre']['modified']; ?></td>
+        <td><?php echo $this->Time->format($genre['Genre']['modified'], $timeFormat); ?></td>
         <td>
 			<?php echo $this->Html->link(
 							$genre['ModifiedBy']['first_name'] . " " . $genre['ModifiedBy']['last_name'],

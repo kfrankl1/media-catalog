@@ -2,25 +2,33 @@
 
 class EpisodesController extends AppController {
 	public $helpers = array('Paginator');
-	//protected $auth = $this->Episode->Show->User->isAuthorized($this->Episode->Show->User->Role->findById($user['role_id']), $checks);
 	
 	public function index() {
 		$user = $this->Auth->user();
 		$episodes = $this->Paginate();
 		$this->set('episodes', $episodes);
 		
-		$permissions = array();
+		$canEditEpisode = array();
+		$canEditStatus = array();
 		foreach ($episodes as $episode):
 			if ($this->Episode->Show->User->canEditEpisode($user, $episode)) {
-				$permissions[$episode['Episode']['id']] = true;
+				$canEditEpisode[$episode['Episode']['id']] = true;
 			} else {
-				$permissions[$episode['Episode']['id']] = false;
-			}				
+				$canEditEpisode[$episode['Episode']['id']] = false;
+			}
+			
+			if ($this->Episode->Show->User->canEditEpisodeStatus($user, $episode)) {
+				$canEditStatus[$episode['Episode']['id']] = true;
+			} else {
+				$canEditStatus[$episode['Episode']['id']] = false;
+			}	
 		endforeach;
-		$this->set('permissions', $permissions);
+		$this->set('canEditEpisode', $canEditEpisode);
+		$this->set('canEditStatus', $canEditStatus);
 	}
 
 	public function view($id = null) {
+		$user = $this->Auth->user();
 		if (!$id) {
 			throw new NotFoundException(__('Invalid episode'));
 		}
@@ -30,39 +38,26 @@ class EpisodesController extends AppController {
 			throw new NotFoundException(__('Invalid episode'));
 		}
 		$this->set('episode', $episode);
+		
+	
+		if ($this->Episode->Show->User->canEditEpisode($user, $episode)) {
+			$canEditEpisode = true;
+		} else {
+			$canEditEpisode = false;
+		}
+			
+		if ($this->Episode->Show->User->canEditEpisodeStatus($user, $episode)) {
+			$canEditStatus = true;
+		} else {
+			$canEditStatus = false;
+		}
+		$this->set('canEditEpisode', $canEditEpisode);
+		$this->set('canEditStatus', $canEditStatus);
 	}
 	
 	public function add() {
 		// find a list of shows that belong to the logged in user
 		$user = $this->Auth->user();
-		
-	
-	//	$checks = array(
-//			'is_add_user', 
-//			'is_edit_any_user',
-//			'is_edit_any_user_role', 
-//			'is_edit_any_role', 
-//			'is_make_any_user_inactive', 
-//			'is_add_show', 
-//			'is_edit_any_show', 
-//			'is_make_any_show_inactive', 
-//			'is_add_any_episode', 
-//			'is_add_authorized_episode', 
-//			'is_edit_any_episode', 
-//			'is_edit_authorized_episode', 
-//			'is_edit_authored_episode', 
-//			'is_edit_settings'
-//		);
-//		
-//		$this->set('checks', $checks);
-//		$result = $this->Episode->Show->User->isAuthorized($checks);
-//		$this->set('result', $result);
-//		
-//		if ($result['is_add_user']) {
-//			echo pr('True');
-//		} else {
-//			echo pr('False');
-//		}
 
 		$checks = array( 
 			'is_add_any_episode', 
@@ -93,6 +88,7 @@ class EpisodesController extends AppController {
 	
 	public function edit($id = null) {
 		$user = $this->Auth->user();
+		echo pr($user);
 
 		$checks = array( 
 			'is_edit_any_episode', 
