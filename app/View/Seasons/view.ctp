@@ -6,8 +6,10 @@
 <p><small>Modified on <?php echo $season['Season']['modified']; ?> by <?php echo $season['ModifiedBy']['first_name'] . " " . $season['ModifiedBy']['last_name']; ?></small></p>
 
 
-<p><?php echo $this->Html->link('Edit', 
-	array('action' => 'edit', $season['Season']['id'])); ?>
+<p><?php if ($canEditSeason) {
+	echo $this->Html->link('Edit', 
+	array('action' => 'edit', $season['Season']['id']));
+}?>
 </p>
 
 <p><?php echo $this->Html->link('Back to Seasons',

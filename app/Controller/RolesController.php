@@ -5,7 +5,12 @@ class RolesController extends AppController {
 	public $name = 'Roles';
 	
 	public function index() {
+		$user = $this->Auth->user();
 		$this->set('roles', $this->Paginate());
+		$checks = array('is_add_role', 'is_edit_any_role');
+		$result = $this->Role->User->isAuthorized($this->Role->User->findById($user['role_id']), $checks);
+		$this->set('canAddRole', $result['is_add_role']);
+		$this->set('canEditRole', $result['is_edit_any_role']);
 	}
 	
 	public function view($id = null) {
@@ -18,6 +23,11 @@ class RolesController extends AppController {
 			throw new NotFoundException(__('Invalid role'));
 		}
 		$this->set('role', $role);
+		
+		$user = $this->Auth->user();
+		$checks = array('is_edit_any_role');
+		$canEditRole = $this->Role->User->isAuthorized($this->Role->User->findById($user['role_id']), $checks);
+		$this->set('canEditRole', $canEditRole['is_edit_any_role']);
 	}
 	
 	public function add() {

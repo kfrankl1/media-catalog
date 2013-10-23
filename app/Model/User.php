@@ -1,4 +1,4 @@
- <?php
+<?php
 
 // app/Model/User.php
 App::uses('AuthComponent', 'Controller/Component'); // added for acl

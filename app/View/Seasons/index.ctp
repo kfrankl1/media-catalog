@@ -1,10 +1,12 @@
 <!-- File: /app/View/Seasons/index.ctp -->
 
 <h1>Seasons</h1>
-<?php echo $this->Html->link(
-    'Add Season',
-    array('controller' => 'seasons', 'action' => 'add')
-); ?>
+<?php if ($canAddSeason) {
+		echo $this->Html->link(
+		'Add Season',
+		array('controller' => 'seasons', 'action' => 'add')
+	  );
+}?>
 <table>
     <tr>
         <th><?php echo $this->Paginator->sort('id'); ?></th>
@@ -24,12 +26,15 @@
 							array('controller' => 'seasons', 'action' => 'view', $season['Season']['id'])); ?>
         </td>
         <td>
-            <?php echo $this->Form->postLink(
-                'Delete',
-                array('action' => 'delete', $season['Season']['id']),
-                array('confirm' => 'Are you sure?'));
-            ?>
-            <?php echo $this->Html->link('Edit', array('action' => 'edit', $season['Season']['id'])); ?>
+            <?php if ($canEditSeason) { 
+					echo $this->Form->postLink(
+					'Delete',
+					array('action' => 'delete', $season['Season']['id']),
+					array('confirm' => 'Are you sure?'));
+			}?>
+            <?php if ($canEditSeason) {
+				echo $this->Html->link('Edit', array('action' => 'edit', $season['Season']['id']));
+			}?>
         </td>
         <td><?php echo $season['Season']['modified']; ?></td>
         <td>

@@ -1,16 +1,19 @@
 <!-- File: /app/View/Roles/index.ctp -->
 
 <h1>Roles</h1>
-<?php echo $this->Html->link(
-    'Add Role',
-    array('controller' => 'roles', 'action' => 'add')
-); ?>
+<?php if ($canAddRole) {
+	echo $this->Html->link(
+    	'Add Role',
+	    array('controller' => 'roles', 'action' => 'add')
+	);
+} ?>
 <table>
     <tr>
         <th><?php echo $this->Paginator->sort('id'); ?></th>
         <th><?php echo $this->Paginator->sort('title'); ?></th>
         <th><?php echo $this->Paginator->sort('is_add_user', 'Add User'); ?></th>
         <th><?php echo $this->Paginator->sort('is_edit_any_user', 'Edit Any User'); ?></th>
+        <th><?php echo $this->Paginator->sort('is_add_role', 'Add Role'); ?></th>
         <th><?php echo $this->Paginator->sort('is_edit_any_user_role', 'Edit Any User\'s Role'); ?></th>
         <th><?php echo $this->Paginator->sort('is_edit_any_user_status', 'Edit Any User Status'); ?></th>
         <th><?php echo $this->Paginator->sort('is_edit_any_role', 'Edit Any Role'); ?></th>
@@ -25,6 +28,8 @@
         <th><?php echo $this->Paginator->sort('is_edit_any_episode_status', 'Edit Any Episode Status'); ?></th>
         <th><?php echo $this->Paginator->sort('is_edit_authorized_episode_status', 'Edit Authorized Episode Status'); ?></th>
         <th><?php echo $this->Paginator->sort('is_add_edit_genre', 'Add/Edit Genre'); ?></th>
+        <th><?php echo $this->Paginator->sort('is_add_season', 'Add Season'); ?></th>
+        <th><?php echo $this->Paginator->sort('is_edit_any_season', 'Edit Any Season'); ?></th>
         <th><?php echo $this->Paginator->sort('is_edit_settings', 'Edit Settings'); ?></th>
         <th>Actions</th>
         <th><?php echo $this->Paginator->sort('modified'); ?></th>
@@ -42,6 +47,7 @@
         </td>
         <td><?php echo $this->UI->toBolString($role['Role']['is_add_user']); ?></td>
         <td><?php echo $this->UI->toBolString($role['Role']['is_edit_any_user']); ?></td>
+        <td><?php echo $this->UI->toBolString($role['Role']['is_add_role']); ?></td>
         <td><?php echo $this->UI->toBolString($role['Role']['is_edit_any_user_role']); ?></td>
         <td><?php echo $this->UI->toBolString($role['Role']['is_edit_any_user_status']); ?></td>
         <td><?php echo $this->UI->toBolString($role['Role']['is_edit_any_role']); ?></td>
@@ -56,20 +62,26 @@
         <td><?php echo $this->UI->toBolString($role['Role']['is_edit_any_episode_status']); ?></td>
         <td><?php echo $this->UI->toBolString($role['Role']['is_edit_authorized_episode_status']); ?></td>
         <td><?php echo $this->UI->toBolString($role['Role']['is_add_edit_genre']); ?></td>
+        <td><?php echo $this->UI->toBolString($role['Role']['is_add_season']); ?></td>
+        <td><?php echo $this->UI->toBolString($role['Role']['is_edit_any_season']); ?></td>
         <td><?php echo $this->UI->toBolString($role['Role']['is_edit_settings']); ?></td>
         <td>
-            <?php echo $this->Form->postLink(
-                'Delete',
-                array('action' => 'delete', $role['Role']['id']),
-                array('confirm' => 'Are you sure?'));
+            <?php if ($canEditRole) {
+					echo $this->Form->postLink(
+					'Delete',
+					array('action' => 'delete', $role['Role']['id']),
+					array('confirm' => 'Are you sure?'));
+			}
             ?>
-            <?php echo $this->Html->link('Edit', array('action' => 'edit', $role['Role']['id'])); ?>
+            <?php if ($canEditRole) {
+						echo $this->Html->link('Edit', array('action' => 'edit', $role['Role']['id']));
+			} ?>
         </td>
-        <td><?php echo $role['Role']['modified']; ?></td>
+        <td><?php echo $this->Time->format($role['Role']['modified'], $timeFormat); ?></td>
         <td>
 			<?php echo $this->Html->link(
-							$role['ModifiedBy']['first_name'] . " " . $role['ModifiedBy']['last_name'],
-							array('controller' => 'users', 'action' => 'view', $role['Role']['modified_by'])); ?>
+						$role['ModifiedBy']['first_name'] . " " . $role['ModifiedBy']['last_name'],
+						array('controller' => 'users', 'action' => 'view', $role['Role']['modified_by'])); ?>
         </td>
     </tr>
     <?php endforeach; ?>
