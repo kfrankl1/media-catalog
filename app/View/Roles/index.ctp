@@ -27,7 +27,8 @@
         <th><?php echo $this->Paginator->sort('is_edit_authorized_episode', 'Edit Authorized Episode'); ?></th>
         <th><?php echo $this->Paginator->sort('is_edit_any_episode_status', 'Edit Any Episode Status'); ?></th>
         <th><?php echo $this->Paginator->sort('is_edit_authorized_episode_status', 'Edit Authorized Episode Status'); ?></th>
-        <th><?php echo $this->Paginator->sort('is_add_edit_genre', 'Add/Edit Genre'); ?></th>
+        <th><?php echo $this->Paginator->sort('is_add_genre', 'Add Genre'); ?></th>
+        <th><?php echo $this->Paginator->sort('is_edit_any_genre', 'Edit Any Genre'); ?></th>
         <th><?php echo $this->Paginator->sort('is_add_season', 'Add Season'); ?></th>
         <th><?php echo $this->Paginator->sort('is_edit_any_season', 'Edit Any Season'); ?></th>
         <th><?php echo $this->Paginator->sort('is_edit_settings', 'Edit Settings'); ?></th>
@@ -61,7 +62,8 @@
         <td><?php echo $this->UI->toBolString($role['Role']['is_edit_authored_episode']); ?></td>
         <td><?php echo $this->UI->toBolString($role['Role']['is_edit_any_episode_status']); ?></td>
         <td><?php echo $this->UI->toBolString($role['Role']['is_edit_authorized_episode_status']); ?></td>
-        <td><?php echo $this->UI->toBolString($role['Role']['is_add_edit_genre']); ?></td>
+        <td><?php echo $this->UI->toBolString($role['Role']['is_add_genre']); ?></td>
+        <td><?php echo $this->UI->toBolString($role['Role']['is_edit_any_genre']); ?></td>
         <td><?php echo $this->UI->toBolString($role['Role']['is_add_season']); ?></td>
         <td><?php echo $this->UI->toBolString($role['Role']['is_edit_any_season']); ?></td>
         <td><?php echo $this->UI->toBolString($role['Role']['is_edit_settings']); ?></td>

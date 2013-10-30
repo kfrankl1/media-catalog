@@ -6,9 +6,10 @@ class GenresController extends AppController {
 	public function index() {
 		$user = $this->Auth->user();
 		$this->set('genres', $this->Paginate());
-		$checks = array('is_add_edit_genre');
-		$canAddEditGenre = $this->Genre->Show->User->isAuthorized($this->Genre->Show->User->Role->findById($user['role_id']), $checks);
-		$this->set('canAddEditGenre', $canAddEditGenre['is_add_edit_genre']);
+		$checks = array('is_add_genre', 'is_edit_any_genre');
+		$result = $this->Genre->Show->User->isAuthorized($this->Genre->Show->User->Role->findById($user['role_id']), $checks);
+		$this->set('canAddGenre', $result['is_add_genre']);
+		$this->set('canEditGenre', $result['is_edit_any_genre']);
 	}
 	
 	public function view($id = null) {
@@ -23,9 +24,9 @@ class GenresController extends AppController {
 		$this->set('genre', $genre);
 		
 		$user = $this->Auth->user;		
-		$checks = array('is_add_edit_genre');
-		$canAddEditGenre = $this->Genre->Show->User->isAuthorized($user['Role']['id'], $checks);
-		$this->set('canAddEditGenre', $canAddEditGenre['is_add_edit_genre']);
+		$checks = array('is_edit_any_genre');
+		$canEditGenre = $this->Genre->Show->User->isAuthorized($user['Role']['id'], $checks);
+		$this->set('canEditGenre', $canEditGenre['is_edit_any_genre']);
 	}
 	
 	public function add() {

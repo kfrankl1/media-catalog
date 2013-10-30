@@ -6,7 +6,7 @@
 <p><small>Modified on <?php echo $this->Time->nice($genre['Genre']['modified']); ?> by <?php echo $genre['ModifiedBy']['first_name'] . " " . $genre['ModifiedBy']['last_name']; ?></small></p>
 
 
-<p><?php if ($canAddEditGenre) {
+<p><?php if ($canEditGenre) {
 		echo $this->Html->link('Edit', 
 		array('action' => 'edit', $genre['Genre']['id']));
 	} ?>

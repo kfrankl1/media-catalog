@@ -1,7 +1,7 @@
 <!-- File: /app/View/Genres/index.ctp -->
 
 <h1>Genres</h1>
-<?php if ($canAddEditGenre) {
+<?php if ($canAddGenre) {
 	echo $this->Html->link(
 		'Add Genre', array('controller' => 'genres', 'action' => 'add')
 	); 
@@ -25,13 +25,14 @@
 							array('controller' => 'genres', 'action' => 'view', $genre['Genre']['id'])); ?>
         </td>
         <td>
-            <?php /*echo $this->Form->postLink(
-                'Delete',
-                array('action' => 'delete', $genre['Genre']['id']),
-                array('confirm' => 'Are you sure?')); */
-            ?>
+            <?php if ($canEditGenre) {
+							echo $this->Form->postLink(
+						'Delete',
+						array('action' => 'delete', $genre['Genre']['id']),
+						array('confirm' => 'Are you sure?'));
+			} ?>
             <?php
-				if ($canAddEditGenre) {
+				if ($canEditGenre) {
 					echo $this->Html->link('Edit', array('action' => 'edit', $genre['Genre']['id']));
 				} ?>
         </td>

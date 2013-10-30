@@ -20,7 +20,8 @@
 	echo $this->Form->input('is_edit_authored_episode', array('type' => 'checkbox'));
 	echo $this->Form->input('is_edit_any_episode_status', array('type' => 'checkbox'));
 	echo $this->Form->input('is_edit_authorized_episode_status', array('type' => 'checkbox'));
-	echo $this->Form->input('is_add_edit_genre', array('label' => 'Is Add/Edit Genre', 'type' => 'checkbox'));
+	echo $this->Form->input('is_add_genre', array('type' => 'checkbox'));
+	echo $this->Form->input('is_edit_any_genre', array('type' => 'checkbox'));
 	echo $this->Form->input('is_add_season', array('type' => 'checkbox'));
 	echo $this->Form->input('is_edit_any_season', array('type' => 'checkbox'));
 	echo $this->Form->input('is_edit_settings', array('type' => 'checkbox'));

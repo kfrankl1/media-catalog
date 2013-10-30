@@ -16,7 +16,8 @@
 <p>Edit Authored Episode: <?php echo $this->UI->toBolString($role['Role']['is_edit_authored_episode']); ?></p>
 <p>Edit Any Episode Status: <?php echo $this->UI->toBolString($role['Role']['is_edit_any_episode_status']); ?></p>
 <p>Edit Authorized Episode Status: <?php echo $this->UI->toBolString($role['Role']['is_edit_authorized_episode_status']); ?></p>
-<p>Add/Edit Genre: <?php echo $this->UI->toBolString($role['Role']['is_add_edit_genre']); ?></p>
+<p>Add Genre: <?php echo $this->UI->toBolString($role['Role']['is_add_genre']); ?></p>
+<p>Edit Any Genre: <?php echo $this->UI->toBolString($role['Role']['is_edit_any_genre']); ?></p>
 <p>Add Season: <?php echo $this->UI->toBolString($role['Role']['is_add_season']); ?></p>
 <p>Edit Any Season: <?php echo $this->UI->toBolString($role['Role']['is_edit_any_season']); ?></p>
 <p>Edit Settings: <?php echo $this->UI->toBolString($role['Role']['is_edit_settings']); ?></p>
