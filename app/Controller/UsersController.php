@@ -17,6 +17,17 @@ class UsersController extends AppController {
         $this->User->recursive = 1;
         $this->set('users', $this->paginate());
 		$this->set('shows', $this->User->Show->find('list', array('recursive' => -1)));
+		
+		$user = $this->Auth->user();
+		$checks = array('is_add_user', 'is_edit_any_user', 'is_edit_any_user_role', 'is_edit_any_user_status');
+		$result = $this->User->isAuthorized($this->User->Role->findById($user['role_id']), $checks);
+		$this->set('canAddUser', $result['is_add_user']);
+		if ($result['is_edit_any_user'] | $result['is_edit_any_user_role']) {
+			$this->set('canEditUser', true);
+		} else {
+			$this->set('canEditUser', false);
+		}
+		$this->set('canEditUserStatus', $result['is_edit_any_user_status']);
     }
 
     public function view($id = null) {
@@ -26,6 +37,15 @@ class UsersController extends AppController {
         }
         $this->set('user', $this->User->read(null, $id));
 		$this->set('shows', $this->User->findAssociatedShows($id));
+		
+		$user = $this->Auth->user();
+		$checks = array('is_edit_any_user', 'is_edit_any_user_role');
+		$result = $this->User->isAuthorized($this->User->Role->findById($user['role_id']), $checks);
+		if ($result['is_edit_any_user'] | $result['is_edit_any_user_role']) {
+			$this->set('canEditUser', true);
+		} else {
+			$this->set('canEditUser', false);
+		}
     }
 
     public function add() {
@@ -46,6 +66,11 @@ class UsersController extends AppController {
     public function edit($id = null) {
 		$this->set('roles', $this->User->Role->find('list'));
 		$this->set('shows', $this->User->Show->find('list'));
+		
+		$user = $this->Auth->user();
+		$checks = array('is_edit_any_user_role');
+		$result = $this->User->isAuthorized($this->User->Role->findById($user['role_id']), $checks);
+		$this->set('canEditUserRole', $result['is_edit_any_user_role']);
 		
         $this->User->id = $id;
         if (!$this->User->exists()) {

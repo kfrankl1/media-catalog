@@ -1,10 +1,11 @@
 <!-- File: /app/View/Users/index.ctp -->
 
 <h1>Users</h1>
-<?php echo $this->Html->link(
-    'Add User',
-    array('controller' => 'users', 'action' => 'add')
-); ?>
+<?php if ($canAddUser) {
+		echo $this->Html->link(
+		'Add User',
+		array('controller' => 'users', 'action' => 'add')
+); } ?>
 <table>
     <tr>
         <th><?php echo $this->Paginator->sort('id'); ?></th>
@@ -30,12 +31,15 @@
         </td>
         <td><?php echo $user['Role']['title']; ?></td>
         <td>
-            <?php echo $this->Form->postLink(
-                'Delete',
-                array('action' => 'delete', $user['User']['id']),
-                array('confirm' => 'Are you sure?'));
-            ?>
-            <?php echo $this->Html->link('Edit', array('action' => 'edit', $user['User']['id'])); ?>
+            <?php if ($canEditUserStatus) {
+					echo $this->Form->postLink(
+					'Delete',
+					array('action' => 'delete', $user['User']['id']),
+					array('confirm' => 'Are you sure?'));
+			} ?>
+            <?php if ($canEditUser) {
+					echo $this->Html->link('Edit', array('action' => 'edit', $user['User']['id'])); 
+			} ?>
         </td>
         <td><?php echo $user['User']['modified']; ?></td>
         <td>

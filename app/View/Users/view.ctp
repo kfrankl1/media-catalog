@@ -9,8 +9,10 @@
 <p><small>Modified on <?php echo $user['User']['modified']; ?> by <?php echo $user['ModifiedBy']['first_name'] . " " . $user['ModifiedBy']['last_name']; ?></small></p>
 
 
-<p><?php echo $this->Html->link('Edit', 
-	array('action' => 'edit', $user['User']['id'])); ?>
+<p><?php if ($canEditUser) {
+		echo $this->Html->link('Edit', 
+		array('action' => 'edit', $user['User']['id'])); 
+} ?>
 </p>
 
 <p><?php echo $this->Html->link('Back to Users',
