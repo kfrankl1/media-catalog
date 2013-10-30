@@ -9,8 +9,10 @@
 <p><small>Modified on <?php echo $show['Show']['modified']; ?> by <?php echo $show['ModifiedBy']['first_name'] . " " . $show['ModifiedBy']['last_name']; ?></small></p>
 
 
-<p><?php echo $this->Html->link('Edit', 
-	array('action' => 'edit', $show['Show']['id'])); ?>
+<p><?php if ($canEditShow) {
+		echo $this->Html->link('Edit', 
+		array('action' => 'edit', $show['Show']['id'])); 
+} ?>
 </p>
 
 <p><?php echo $this->Html->link('Back to Shows',

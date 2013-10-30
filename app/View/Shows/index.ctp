@@ -1,10 +1,12 @@
 <!-- File: /app/View/Shows/index.ctp -->
 
 <h1>Shows</h1>
-<?php echo $this->Html->link(
-    'Add Show',
-    array('controller' => 'shows', 'action' => 'add')
-); ?>
+<?php if ($canAddShow) {
+		echo $this->Html->link(
+		'Add Show',
+		array('controller' => 'shows', 'action' => 'add')
+	);
+}?>
 <table>
     <tr>
         <th><?php echo $this->Paginator->sort('id'); ?></th>
@@ -28,12 +30,15 @@
         <td><?php echo $show['Show']['tagline']; ?></td>
         <td><?php echo $show['Show']['description']; ?></td>
         <td>
-            <?php echo $this->Form->postLink(
-                'Delete',
-                array('action' => 'delete', $show['Show']['id']),
-                array('confirm' => 'Are you sure?'));
-            ?>
-            <?php echo $this->Html->link('Edit', array('action' => 'edit', $show['Show']['id'])); ?>
+            <?php if ($canEditShowStatus) {
+					echo $this->Form->postLink(
+					'Delete',
+					array('action' => 'delete', $show['Show']['id']),
+					array('confirm' => 'Are you sure?'));
+			} ?>
+            <?php if ($canEditShow) {
+				echo $this->Html->link('Edit', array('action' => 'edit', $show['Show']['id'])); 
+			} ?>
         </td>
         <td><?php echo $show['Show']['modified']; ?></td>
         <td>

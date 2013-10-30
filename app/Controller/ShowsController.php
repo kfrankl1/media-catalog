@@ -6,6 +6,13 @@ class ShowsController extends AppController {
 	
 	public function index() {
 		$this->set('shows', $this->paginate());
+		
+		$user = $this->Auth->user();
+		$checks = array('is_add_show', 'is_edit_any_show', 'is_edit_any_show_status');
+		$result = $this->Show->User->isAuthorized($this->Show->User->Role->findById($user['role_id']), $checks);
+		$this->set('canAddShow', $result['is_add_show']);
+		$this->set('canEditShow', $result['is_edit_any_show']);
+		$this->set('canEditShowStatus', $result['is_edit_any_show_status']);
 	}
 
 	public function view($id = null) {
@@ -20,6 +27,11 @@ class ShowsController extends AppController {
 			throw new NotFoundException(__('Invalid show'));
 		}
 		$this->set('show', $show);
+		
+		$user = $this->Auth->user();
+		$checks = array('is_edit_any_show');
+		$result = $this->Show->User->isAuthorized($this->Show->User->Role->findById($user['role_id']), $checks);
+		$this->set('canEditShow', $result['is_edit_any_show']);
 	}
 	
 	public function add() {
