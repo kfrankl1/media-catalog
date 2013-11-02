@@ -139,6 +139,7 @@ class UsersController extends AppController {
 		$this->Acl->allow($role, 'controllers/Genres');
 		$this->Acl->allow($role, 'controllers/Seasons');
 		$this->Acl->allow($role, 'controllers/Shows');
+		$this->Acl->allow($role, 'controllers/Users/login');
 		$this->Acl->allow($role, 'controllers/Users/add');
 		$this->Acl->allow($role, 'controllers/Users/index');
 		$this->Acl->allow($role, 'controllers/Users/view');
@@ -153,6 +154,7 @@ class UsersController extends AppController {
 		$this->Acl->allow($role, 'controllers/Episodes/view');
 		$this->Acl->allow($role, 'controllers/Shows/index');
 		$this->Acl->allow($role, 'controllers/Shows/view');
+		$this->Acl->allow($role, 'controllers/Users/login');
 		$this->Acl->allow($role, 'controllers/Users/edit'); // need to edit self
 	
 		// allow crew to only add and edit assigned episodes
@@ -168,6 +170,7 @@ class UsersController extends AppController {
 		$this->Acl->allow($role, 'controllers/Episodes/edit');
 		$this->Acl->allow($role, 'controllers/Episodes/index');
 		$this->Acl->allow($role, 'controllers/Episodes/view');
+		$this->Acl->allow($role, 'controllers/Users/login');
 		$this->Acl->allow($role, 'controllers/Users/edit'); // need to edit self
 		
 		// we add an exit to avoid an ugly "missing views" error message
