@@ -738,3 +738,12 @@ pre {
 #url-rewriting-warning {
 	display:none;
 }
+
+/** Kelsy Custom **/
+a.account-link:hover,
+a.account-link:visited,
+a.account-link:active,
+a.account-link:link {
+	color: #CCC;
+	text-decoration: underline;
+}

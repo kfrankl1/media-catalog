@@ -8,6 +8,7 @@
 	echo $this->Form->input('is_edit_any_user', array('type' => 'checkbox'));
 	echo $this->Form->input('is_add_role', array('type' => 'checkbox'));
 	echo $this->Form->input('is_edit_any_user_role', array('type' => 'checkbox'));
+	echo $this->Form->input('is_edit_any_user_shows', array('type' => 'checkbox'));
 	echo $this->Form->input('is_edit_any_user_status', array('type' => 'checkbox'));
 	echo $this->Form->input('is_edit_any_role', array('type' => 'checkbox'));
 	echo $this->Form->input('is_add_show', array('type' => 'checkbox'));

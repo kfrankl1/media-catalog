@@ -41,9 +41,18 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 	<div id="container">
 		<div id="header">
 			<h1><?php echo $this->Html->link($cakeDescription, 'http://cakephp.org'); ?></h1>
+            <h4>Welcome back 
             <?php	if (AuthComponent::user('first_name') != null) {
-						echo '<h4>Welcome back ' . AuthComponent::user('first_name') . '</h4>'; //added by KF on 8/1/2013
-			?>
+						echo $this->Html->link(
+							AuthComponent::user('first_name'), 
+							array(
+								'controller' => 'users', 
+								'action' => 'edit', 
+								AuthComponent::user('id')
+							)
+							, array('class' => 'account-link')
+						); ?>
+            </h4>
             <nav class="actions">
             	<?php echo $this->Html->link('Episodes', array('controller' => 'episodes', 'action' => 'index')); ?> 
             	<?php echo $this->Html->link('Genres', array('controller' => 'genres', 'action' => 'index')); ?> 

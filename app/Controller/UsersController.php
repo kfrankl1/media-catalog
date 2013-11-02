@@ -9,7 +9,7 @@ class UsersController extends AppController {
         parent::beforeFilter();
 		$this->Auth->allow('login');
 		$this->Auth->allow('logout');
-		//$this->Auth->allow('initDB');
+		$this->Auth->allow('initDB');
 		$this->Auth->allow('test');
     }
 
@@ -19,10 +19,10 @@ class UsersController extends AppController {
 		$this->set('shows', $this->User->Show->find('list', array('recursive' => -1)));
 		
 		$user = $this->Auth->user();
-		$checks = array('is_add_user', 'is_edit_any_user', 'is_edit_any_user_role', 'is_edit_any_user_status');
+		$checks = array('is_add_user', 'is_edit_any_user', 'is_edit_any_user_role', 'is_edit_any_user_shows', 'is_edit_any_user_status');
 		$result = $this->User->isAuthorized($this->User->Role->findById($user['role_id']), $checks);
 		$this->set('canAddUser', $result['is_add_user']);
-		if ($result['is_edit_any_user'] | $result['is_edit_any_user_role']) {
+		if ($result['is_edit_any_user'] | $result['is_edit_any_user_role'] | $result['is_edit_any_user_shows']) {
 			$this->set('canEditUser', true);
 		} else {
 			$this->set('canEditUser', false);
@@ -39,9 +39,9 @@ class UsersController extends AppController {
 		$this->set('shows', $this->User->findAssociatedShows($id));
 		
 		$user = $this->Auth->user();
-		$checks = array('is_edit_any_user', 'is_edit_any_user_role');
+		$checks = array('is_edit_any_user', 'is_edit_any_user_role', 'is_edit_any_user_shows');
 		$result = $this->User->isAuthorized($this->User->Role->findById($user['role_id']), $checks);
-		if ($result['is_edit_any_user'] | $result['is_edit_any_user_role']) {
+		if ($result['is_edit_any_user'] | $result['is_edit_any_user_role'] | $result['is_edit_any_user_shows']) {
 			$this->set('canEditUser', true);
 		} else {
 			$this->set('canEditUser', false);
@@ -142,6 +142,7 @@ class UsersController extends AppController {
 		$this->Acl->allow($role, 'controllers/Users/add');
 		$this->Acl->allow($role, 'controllers/Users/index');
 		$this->Acl->allow($role, 'controllers/Users/view');
+		$this->Acl->allow($role, 'controllers/Users/edit'); // need to edit self
 	
 		// allow producers to only add and edit assigned episodes and show
 		$role->id = 3;
@@ -152,6 +153,7 @@ class UsersController extends AppController {
 		$this->Acl->allow($role, 'controllers/Episodes/view');
 		$this->Acl->allow($role, 'controllers/Shows/index');
 		$this->Acl->allow($role, 'controllers/Shows/view');
+		$this->Acl->allow($role, 'controllers/Users/edit'); // need to edit self
 	
 		// allow crew to only add and edit assigned episodes
 		$role->id = 4;
@@ -166,6 +168,7 @@ class UsersController extends AppController {
 		$this->Acl->allow($role, 'controllers/Episodes/edit');
 		$this->Acl->allow($role, 'controllers/Episodes/index');
 		$this->Acl->allow($role, 'controllers/Episodes/view');
+		$this->Acl->allow($role, 'controllers/Users/edit'); // need to edit self
 		
 		// we add an exit to avoid an ugly "missing views" error message
 		echo "all done";

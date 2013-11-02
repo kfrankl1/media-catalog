@@ -15,6 +15,7 @@
         <th><?php echo $this->Paginator->sort('is_edit_any_user', 'Edit Any User'); ?></th>
         <th><?php echo $this->Paginator->sort('is_add_role', 'Add Role'); ?></th>
         <th><?php echo $this->Paginator->sort('is_edit_any_user_role', 'Edit Any User\'s Role'); ?></th>
+        <th><?php echo $this->Paginator->sort('is_edit_any_user_shows', 'Edit Any User\'s Shows'); ?></th>
         <th><?php echo $this->Paginator->sort('is_edit_any_user_status', 'Edit Any User Status'); ?></th>
         <th><?php echo $this->Paginator->sort('is_edit_any_role', 'Edit Any Role'); ?></th>
         <th><?php echo $this->Paginator->sort('is_add_show', 'Add Show'); ?></th>
@@ -50,6 +51,7 @@
         <td><?php echo $this->UI->toBolString($role['Role']['is_edit_any_user']); ?></td>
         <td><?php echo $this->UI->toBolString($role['Role']['is_add_role']); ?></td>
         <td><?php echo $this->UI->toBolString($role['Role']['is_edit_any_user_role']); ?></td>
+        <td><?php echo $this->UI->toBolString($role['Role']['is_edit_any_user_shows']); ?></td>
         <td><?php echo $this->UI->toBolString($role['Role']['is_edit_any_user_status']); ?></td>
         <td><?php echo $this->UI->toBolString($role['Role']['is_edit_any_role']); ?></td>
         <td><?php echo $this->UI->toBolString($role['Role']['is_add_show']); ?></td>
