@@ -35,22 +35,24 @@
  * 
  */
 class HabtmValidatableBehavior extends ModelBehavior {
-    function setup(&$Model, $settings) {
+	// compatibility error with version? Modified declaration
+	public function setup(Model $model, $config = array()) {
         if(empty($settings)) {
-            $settings = $Model->getAssociated('hasAndBelongsToMany');
+            $config = $model->getAssociated('hasAndBelongsToMany');
         }
-        foreach((array)$settings as $key) {
+        foreach((array)$config as $key) {
             $fieldName = $key;
-            $this->settings[$Model->alias][] = $fieldName;
+            $this->settings[$model->alias][] = $fieldName;
         }
     }
     
-    function beforeSave(&$Model, $options = array()) {
-        foreach($this->settings[$Model->alias] as $fieldName) {
-            if(isset($Model->data[$Model->alias][$fieldName]) && 
-                !isset($Model->data[$fieldName][$fieldName])) {
-                $Model->data[$fieldName][$fieldName] = $Model->data[$Model->alias][$fieldName];
-                unset($Model->data[$Model->alias][$fieldName]);
+	// compatibility error with version? Modified declaration
+    function beforeSave(Model $model) {
+        foreach($this->settings[$model->alias] as $fieldName) {
+            if(isset($model->data[$model->alias][$fieldName]) && 
+                !isset($model->data[$fieldName][$fieldName])) {
+                $model->data[$fieldName][$fieldName] = $model->data[$model->alias][$fieldName];
+                unset($model->data[$model->alias][$fieldName]);
             }
         }
         return true;

@@ -88,12 +88,14 @@ class User extends AppModel {
         }
     }
 	
-	public function beforeValidate(){
+	// compatibility error with version? Modified declaration
+	public function beforeValidate($options = array()){
 		if ($this->data['User']['password'] == "") {
 			unset($this->data['User']['password']);
 		}
 	}
 	
+	// compatibility error with version? Modified declaration
 	public function beforeSave($options = array()) {
 		if (isset($this->data[$this->alias]['password'])) {
 			$this->data[$this->alias]['password'] = AuthComponent::password($this->data[$this->alias]['password']);
