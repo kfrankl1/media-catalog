@@ -53,7 +53,7 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 							)
 							, array('class' => 'account-link')
 						);
-						echo '</h4>';
+						echo ' (' . AuthComponent::user('Role.title') . ')</h4>';
 						?>
             </h4>
             <nav class="actions">

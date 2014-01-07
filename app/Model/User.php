@@ -5,8 +5,7 @@ App::uses('AuthComponent', 'Controller/Component'); // added for acl
 class User extends AppModel {
 	public $helper = array('Text');
 	var $name = "User";
-	var $actsAs = array('Acl' => array('type' => 'requester'), 'HabtmValidatable' => 'Show'); //One field
-	//public $actsAs = array();
+	var $actsAs = array('Acl' => array('type' => 'requester'), 'HabtmValidatable' => 'Show');
 	
 	public $belongsTo = array(
         'Role' => array(
@@ -140,6 +139,43 @@ class User extends AppModel {
 		return $result;
 	}	
 	
+	public function findAssociatedShowIds($userId) {
+		$options = array(
+			'joins' => array(
+				array('table' => 'shows_users',
+					'alias' => 'ShowUsers',
+					'type' => 'left',
+					'conditions' => array(
+						'User.id = ShowUsers.user_id'
+					)
+				),
+				array('table' => 'shows',
+					'alias' => 'Show',
+					'type' => 'left',
+					'conditions' => array(
+						'ShowUsers.show_id = Show.id'
+					)
+				)
+			)
+			,'conditions' => array(
+				'ShowUsers.user_id' => $userId
+			)
+			,'fields' => array(
+				'Show.id'
+			)
+			,'recursive' => -1
+		);
+		
+		$showsList = $this->find('all', $options);
+		$result = array();
+		
+		foreach ($showsList as $show):
+			array_push($result, $show['Show']['id']);
+		endforeach;
+		
+		return $result;
+	}
+	
 	public function findAuthoredEpisodes($userId) {
 		$options = array(
 			'joins' => array(
@@ -244,7 +280,8 @@ class User extends AppModel {
 			return true;
 		} else if ($auth['is_edit_authorized_episode']) {
 			// find all of your authorized shows and see if episode id matches
-			$shows = $this->Episode->Show->User->findAssociatedShows($user['id']);
+			//$shows = $this->Episode->Show->User->findAssociatedShows($user['id']);
+			$shows = $this->findAssociatedShowIds($user['id']);
 			foreach ($shows as $show):
 				if ($show['id'] === $episode['Show']['id']) {
 					return true;

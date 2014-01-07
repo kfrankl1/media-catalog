@@ -49,44 +49,62 @@ class UsersController extends AppController {
     }
 
     public function add() {
-		$this->set('roles', $this->User->Role->find('list'));
-		$this->set('shows', $this->User->Show->find('list'));
+		$user = $this->Auth->user();
+		$checks = array('is_add_user');
+		$result = $this->User->isAuthorized($this->User->Role->findById($user['role_id']), $checks);
 		
-        if ($this->request->is('post')) {
-            $this->User->create();
-            if ($this->User->save($this->request->data)) {
-                $this->Session->setFlash(__('The user has been saved'));
-                $this->redirect(array('action' => 'index'));
-            } else {
-                $this->Session->setFlash(__('The user could not be saved. Please try again.'));
-            }
-        }
+		if ($result['is_add_user']) {			
+			$this->set('roles', $this->User->Role->find('list'));
+			$this->set('shows', $this->User->Show->find('list'));
+			
+			if ($this->request->is('post')) {
+				$this->User->create();
+				if ($this->User->save($this->request->data)) {
+					$this->Session->setFlash(__('The user has been saved'));
+					$this->redirect(array('action' => 'index'));
+				} else {
+					$this->Session->setFlash(__('The user could not be saved. Please try again.'));
+				}
+			}
+		} else {
+			$this->Session->setFlash('You do not have permission to add a user.');
+			$this->redirect(array('action' => 'index'));
+		}
     }
 
     public function edit($id = null) {
-		$this->set('roles', $this->User->Role->find('list'));
-		$this->set('shows', $this->User->Show->find('list'));
-		
 		$user = $this->Auth->user();
-		$checks = array('is_edit_any_user_role');
+		$checks = array('is_edit_any_user');
 		$result = $this->User->isAuthorized($this->User->Role->findById($user['role_id']), $checks);
-		$this->set('canEditUserRole', $result['is_edit_any_user_role']);
 		
-        $this->User->id = $id;
-        if (!$this->User->exists()) {
-            throw new NotFoundException(__('Invalid user'));
-        }
-        if ($this->request->is('post') || $this->request->is('put')) {
-            if ($this->User->save($this->request->data)) {
-                $this->Session->setFlash(__('The user has been saved'));
-                $this->redirect(array('action' => 'index'));
-            } else {
-                $this->Session->setFlash(__('The user could not be saved. Please try again.'));
-            }
-        } else {
-            $this->request->data = $this->User->read(null, $id);
-            unset($this->request->data['User']['password']);
-        }
+		if ($result['is_edit_any_user']) {
+			$this->set('roles', $this->User->Role->find('list'));
+			$this->set('shows', $this->User->Show->find('list'));
+			
+			$user = $this->Auth->user();
+			$checks = array('is_edit_any_user_role');
+			$result = $this->User->isAuthorized($this->User->Role->findById($user['role_id']), $checks);
+			$this->set('canEditUserRole', $result['is_edit_any_user_role']);
+			
+			$this->User->id = $id;
+			if (!$this->User->exists()) {
+				throw new NotFoundException(__('Invalid user'));
+			}
+			if ($this->request->is('post') || $this->request->is('put')) {
+				if ($this->User->save($this->request->data)) {
+					$this->Session->setFlash(__('The user has been saved'));
+					$this->redirect(array('action' => 'index'));
+				} else {
+					$this->Session->setFlash(__('The user could not be saved. Please try again.'));
+				}
+			} else {
+				$this->request->data = $this->User->read(null, $id);
+				unset($this->request->data['User']['password']);
+			}
+		} else {
+			$this->Session->setFlash('You do not have permission to edit this user.');
+			$this->redirect(array('action' => 'index'));
+		}
     }
 
     public function delete($id = null) {

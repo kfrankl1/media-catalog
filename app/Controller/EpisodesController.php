@@ -25,6 +25,17 @@ class EpisodesController extends AppController {
 		endforeach;
 		$this->set('canEditEpisode', $canEditEpisode);
 		$this->set('canEditStatus', $canEditStatus);
+		
+		$checks = array('is_add_any_episode', 'is_add_authorized_episode');
+		$result = $this->Episode->Show->User->isAuthorized($this->Episode->Show->User->Role->findById($user['role_id']), $checks);
+		
+		if ($result['is_add_any_episode'] | $result['is_add_authorized_episode']) {
+			$canAddEpisode = true;
+		}
+		else {
+			$canAddEpisode = false;
+		}
+		$this->set('canAddEpisode', $canAddEpisode);
 	}
 
 	public function view($id = null) {
@@ -70,9 +81,11 @@ class EpisodesController extends AppController {
 			$shows = $this->Episode->Show->find('list');
 		} else if ($auth['is_add_authorized_episode']) {
 			$shows = $this->Episode->Show->User->findAssociatedShows($user['id']);
+		} else {
+			$shows = null;
 		}
 		
-		$this->set('shows', $shows);		
+		$this->set('shows', $shows); // this array is just titles, not IDs
 		$this->set('seasons', $this->Episode->Season->find('list'));
 		
 		if ($this->request->is('post')) {
@@ -88,23 +101,26 @@ class EpisodesController extends AppController {
 	
 	public function edit($id = null) {
 		$user = $this->Auth->user();
-		echo pr($user);
-
 		$checks = array( 
 			'is_edit_any_episode', 
 			'is_edit_authorized_episode',
+			'is_edit_authored_episode',
 		);
 		
 		$auth = $this->Episode->Show->User->isAuthorized($this->Episode->Show->User->Role->findById($user['role_id']), $checks);
+		$episode = $this->Episode->findById($id);
 		
+		$allow = false;
 		if ($auth['is_edit_any_episode']) {
-			$shows = $this->Episode->Show->find('list');
+			$allow = true;
 		} else if ($auth['is_edit_authorized_episode']) {
-			$shows = $this->Episode->Show->User->findAssociatedShows($user['id']);
+			$authorizedShows = $this->Episode->Show->User->findAssociatedShowIds($user['id']);
+			$allow = in_array($episode['Episode']['show_id'], $authorizedShows);
+		} else if ($auth['is_edit_authored_episode'] && $episode['Episode']['created_by'] == $user['id']) {
+			$allow = true;
 		}
 		
-		
-		if ($this->isAuthorized($user)) {
+		if ($allow) {
 			$this->set('shows', $this->Episode->Show->find('list'));
 			$this->set('seasons', $this->Episode->Season->find('list'));
 			
@@ -112,7 +128,6 @@ class EpisodesController extends AppController {
 				throw new NotFoundException(__('Invalid episode'));
 			}
 		
-			$episode = $this->Episode->findById($id);
 			if (!$episode) {
 				throw new NotFoundException(__('Invalid episode'));
 			}

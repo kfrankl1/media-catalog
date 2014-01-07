@@ -5,7 +5,7 @@
 <p>Edit Any User: <?php echo $this->UI->toBolString($role['Role']['is_edit_any_user']); ?></p>
 <p>Add Role: <?php echo $this->UI->toBolString($role['Role']['is_add_role']); ?></p>
 <p>Edit Any User Role: <?php echo $this->UI->toBolString($role['Role']['is_edit_any_user_role']); ?></p>
-<p>Edit Any User's Shows: <?php echo $this->UI->toBolString($role['Role']['is_edit_any_user_show']); ?></p>
+<p>Edit Any User's Shows: <?php echo $this->UI->toBolString($role['Role']['is_edit_any_user_shows']); ?></p>
 <p>Edit Any User Status: <?php echo $this->UI->toBolString($role['Role']['is_edit_any_user_status']); ?></p>
 <p>Edit Any Role: <?php echo $this->UI->toBolString($role['Role']['is_edit_any_role']); ?></p>
 <p>Add Show: <?php echo $this->UI->toBolString($role['Role']['is_add_show']); ?></p>

@@ -30,39 +30,57 @@ class GenresController extends AppController {
 	}
 	
 	public function add() {
-		if ($this->request->is('post')) {
-				$this->Genre->create();
-			if ($this->Genre->save($this->request->data)) {
-					$this->Session->setFlash('Your genre has been saved.');
-					$this->redirect(array('action' => 'index'));
-			} else {
-					$this->Session->setFlash('Unable to add your genre.');
-			}
+		$user = $this->Auth->user();
+		$checks = array('is_add_genre');
+		$result = $this->Genre->Show->User->isAuthorized($this->Genre->Show->User->Role->findById($user['role_id']), $checks);
+		
+		if ($result['is_add_genre']) {
+			if ($this->request->is('post')) {
+					$this->Genre->create();
+				if ($this->Genre->save($this->request->data)) {
+						$this->Session->setFlash('Your genre has been saved.');
+						$this->redirect(array('action' => 'index'));
+				} else {
+						$this->Session->setFlash('Unable to add your genre.');
+				}
+			}			
+		} else {
+			$this->Session->setFlash('You do not have permission to add a genre.');
+			$this->redirect(array('action' => 'index'));
 		}
 	}
 	
 	public function edit($id = null) {
-		if (!$id) {
-			throw new NotFoundException(__('Invalid genre'));
-		}
-	
-		$genre = $this->Genre->findById($id);
-		if (!$genre) {
-			throw new NotFoundException(__('Invalid genre'));
-		}
-	
-		if ($this->request->is('post') || $this->request->is('put')) {
-				$this->Genre->id = $id;
-		  if ($this->Genre->save($this->request->data)) {
-				$this->Session->setFlash('Your genre has been updated.');
-				$this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash('Unable to update your genre.');
+		$user = $this->Auth->user();
+		$checks = array('is_edit_any_genre');
+		$result = $this->Genre->Show->User->isAuthorized($this->Genre->Show->User->Role->findById($user['role_id']), $checks);
+		
+		if ($result['is_edit_any_genre']) {
+			if (!$id) {
+				throw new NotFoundException(__('Invalid genre'));
 			}
-		}
-	
-		if (!$this->request->data) {
-			$this->request->data = $genre;
+		
+			$genre = $this->Genre->findById($id);
+			if (!$genre) {
+				throw new NotFoundException(__('Invalid genre'));
+			}
+		
+			if ($this->request->is('post') || $this->request->is('put')) {
+					$this->Genre->id = $id;
+			  if ($this->Genre->save($this->request->data)) {
+					$this->Session->setFlash('Your genre has been updated.');
+					$this->redirect(array('action' => 'index'));
+				} else {
+					$this->Session->setFlash('Unable to update your genre.');
+				}
+			}
+		
+			if (!$this->request->data) {
+				$this->request->data = $genre;
+			}		
+		} else {
+			$this->Session->setFlash('You do not have permission to edit this genre.');
+			$this->redirect(array('action' => 'index'));
 		}
 	}
 	

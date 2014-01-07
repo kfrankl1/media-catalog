@@ -2,10 +2,11 @@
 
 <h1>Episodes</h1>
 
-<?php echo $this->Html->link(
-    'Add Episode',
-    array('controller' => 'episodes', 'action' => 'add')
-); ?>
+<?php if ($canAddEpisode) {
+		echo $this->Html->link(
+			'Add Episode', array('controller' => 'episodes', 'action' => 'add')
+		); 
+} ?>
 <table>
     <tr>
         <th><?php echo $this->Paginator->sort('id'); ?></th>
