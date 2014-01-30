@@ -35,15 +35,24 @@ class ShowsController extends AppController {
 	}
 	
 	public function add() {
-		$this->set('genres', $this->Show->Genre->find('list'));
-		if ($this->request->is('post')) {
-				$this->Show->create();
-			if ($this->Show->save($this->request->data)) {
+		$user = $this->Auth->user();
+		$checks = array('is_add_show');
+		$auth = $this->Show->User->isAuthorized($this->Show->User->Role->findById($user['role_id']), $checks);
+	
+		if ($auth['is_add_show']) {			
+			$this->set('genres', $this->Show->Genre->find('list'));
+			if ($this->request->is('post')) {
+					$this->Show->create();
+				if ($this->Show->save($this->request->data)) {
 					$this->Session->setFlash('Your show has been saved.');
 					$this->redirect(array('action' => 'index'));
-			} else {
+				} else {
 					$this->Session->setFlash('Unable to add your show.');
+				}
 			}
+		} else {
+			$this->Session->setFlash('You do not have permission to add a show.');
+			$this->redirect(array('action' => 'index'));
 		}
 	}
 	
@@ -59,14 +68,23 @@ class ShowsController extends AppController {
 			throw new NotFoundException(__('Invalid show'));
 		}
 	
-		if ($this->request->is('post') || $this->request->is('put')) {
-				$this->Show->id = $id;
-		  if ($this->Show->save($this->request->data)) {
-				$this->Session->setFlash('Your show has been updated.');
-				$this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash('Unable to update your show.');
+		$user = $this->Auth->user();
+		$checks = array('is_edit_any_show');
+		$auth = $this->Show->User->isAuthorized($this->Show->User->Role->findById($user['role_id']), $checks);
+	
+		if ($auth['is_edit_any_show']) {	
+			if ($this->request->is('post') || $this->request->is('put')) {
+					$this->Show->id = $id;
+			  if ($this->Show->save($this->request->data)) {
+					$this->Session->setFlash('Your show has been updated.');
+					$this->redirect(array('action' => 'index'));
+				} else {
+					$this->Session->setFlash('Unable to update your show.');
+				}
 			}
+		} else {
+			$this->Session->setFlash('You do not have permission to edit this show.');
+			$this->redirect(array('action' => 'index'));
 		}
 	
 		if (!$this->request->data) {
@@ -76,11 +94,20 @@ class ShowsController extends AppController {
 	
 	public function delete($id) {
 		if ($this->request->is('get')) {
-				throw new MethodNotAllowedException();
+			throw new MethodNotAllowedException();
 		}
+		
+		$user = $this->Auth->user();
+		$checks = array('is_edit_any_show');
+		$auth = $this->Show->User->isAuthorized($this->Show->User->Role->findById($user['role_id']), $checks);
 	
-		if ($this->Show->delete($id)) {
-			$this->Session->setFlash('The show with id: ' . $id . ' has been deleted.');
+		if ($auth['is_edit_any_show']) {
+			if ($this->Show->delete($id)) {
+				$this->Session->setFlash('The show with id: ' . $id . ' has been deleted.');
+				$this->redirect(array('action' => 'index'));
+			}
+		} else {
+			$this->Session->setFlash('You do not have permission to edit this show\'s status.');
 			$this->redirect(array('action' => 'index'));
 		}
 	}

@@ -26,7 +26,7 @@
     <?php foreach ($episodes as $episode): ?>
     <tr>
         <td><?php echo $episode['Episode']['id']; ?></td>
-        <td><?php echo $episode['Episode']['is_active']; ?></td>
+        <td><?php echo $this->UI->toBolString($episode['Episode']['is_active']); ?></td>
         <td>
             <?php echo $this->Html->link($episode['Show']['title'],
 							array('controller' => 'shows', 'action' => 'view', $episode['Show']['id']));

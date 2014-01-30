@@ -111,16 +111,25 @@ class UsersController extends AppController {
         if (!$this->request->is('post')) {
             throw new MethodNotAllowedException();
         }
-        $this->User->id = $id;
-        if (!$this->User->exists()) {
-            throw new NotFoundException(__('Invalid user'));
-        }
-        if ($this->User->delete()) {
-            $this->Session->setFlash(__('User deleted'));
-            $this->redirect(array('action' => 'index'));
-        }
-        $this->Session->setFlash(__('User was not deleted'));
-        $this->redirect(array('action' => 'index'));
+		$user = $this->Auth->user();
+		$checks = array('is_edit_any_user_status');
+		$result = $this->User->isAuthorized($this->User->Role->findById($user['role_id']), $checks);
+		
+		if ($result['is_edit_any_user_status']) {
+			$this->User->id = $id;
+			if (!$this->User->exists()) {
+				throw new NotFoundException(__('Invalid user'));
+			}
+			if ($this->User->delete()) {
+				$this->Session->setFlash(__('User deleted'));
+				$this->redirect(array('action' => 'index'));
+			}
+			$this->Session->setFlash(__('User was not deleted'));
+			$this->redirect(array('action' => 'index'));
+		} else {
+			$this->Session->setFlash('You do not have permission to edit this user\'s status.');
+			$this->redirect('/users/index');
+		}
     }
 
 	public function login() {

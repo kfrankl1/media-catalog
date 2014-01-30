@@ -32,6 +32,7 @@ App::uses('Controller', 'Controller');
  * @link		http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {
+	var $uses = array('User');
 	public $components = array(
 		'Session'
 		,'Acl'
@@ -45,12 +46,38 @@ class AppController extends Controller {
 	);
 
     public $helpers = array('Html', 'Form', 'Session', 'Time');
+	public $userCan;
 		
 	/**
 	* beforeFilter - added 6/16/13 - KF
 	**/
 	function beforeFilter() {
-		$user = $this->Auth->user('id');
+		//$user = $this->Auth->user('id');
+//		$checks = array(
+//			'is_add_user', 
+//			'is_edit_any_user',
+//			'is_edit_any_user_role', 
+//			'is_edit_any_user_shows', 
+//			'is_add_role', 
+//			'is_edit_any_role', 
+//			'is_make_any_user_status', 
+//			'is_add_show', 
+//			'is_edit_any_show', 
+//			'is_edit_any_show_status', 
+//			'is_add_any_episode', 
+//			'is_add_authorized_episode', 
+//			'is_edit_any_episode', 
+//			'is_edit_authorized_episode', 
+//			'is_edit_authored_episode', 
+//			'is_edit_any_episode_status', 
+//			'is_edit_authorized_episode_status', 
+//			'is_add_genre', 
+//			'is_edit_any_genre', 
+//			'is_add_season', 
+//			'is_edit_any_season', 
+//			'is_edit_settings'
+//		);
+//		$userCan = $this->User->isAuthorized($this->User->Role->findById($user['role_id']), $checks);
 		
 		//Configure AuthComponent
         //$this->Auth->authorize = 'actions'; // commented out for acl
@@ -69,7 +96,8 @@ class AppController extends Controller {
 		}
 		
 		// Set common variables
-		$timeFormat = '%Y-%m-%d';
+		//$timeFormat = '%Y-%m-%d';
+		$timeFormat = '%m-%d-%Y';
 		$this->set('timeFormat', $timeFormat);
 	}
 }

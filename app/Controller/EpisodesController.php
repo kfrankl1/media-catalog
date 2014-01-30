@@ -76,11 +76,13 @@ class EpisodesController extends AppController {
 		);
 		
 		$auth = $this->Episode->Show->User->isAuthorized($this->Episode->Show->User->Role->findById($user['role_id']), $checks);
-		
+		$allow = false;
 		if ($auth['is_add_any_episode']) {
 			$shows = $this->Episode->Show->find('list');
+			$allow = true;
 		} else if ($auth['is_add_authorized_episode']) {
 			$shows = $this->Episode->Show->User->findAssociatedShows($user['id']);
+			$allow = true;
 		} else {
 			$shows = null;
 		}
@@ -88,14 +90,19 @@ class EpisodesController extends AppController {
 		$this->set('shows', $shows); // this array is just titles, not IDs
 		$this->set('seasons', $this->Episode->Season->find('list'));
 		
-		if ($this->request->is('post')) {
-				$this->Episode->create();
-			if ($this->Episode->save($this->request->data)) {
-					$this->Session->setFlash('Your episode has been saved.');
-					$this->redirect(array('action' => 'index'));
-			} else {
-					$this->Session->setFlash('Unable to add your episode.');
+		if ($allow) {
+			if ($this->request->is('post')) {
+					$this->Episode->create();
+				if ($this->Episode->save($this->request->data)) {
+						$this->Session->setFlash('Your episode has been saved.');
+						$this->redirect(array('action' => 'index'));
+				} else {
+						$this->Session->setFlash('Unable to add your episode.');
+				}
 			}
+		} else {
+			$this->Session->setFlash('You do not have permission to add an episode.');
+			$this->redirect(array('action' => 'index'));
 		}
 	}
 	
@@ -157,8 +164,22 @@ class EpisodesController extends AppController {
 			throw new MethodNotAllowedException();
 		}
 	
-		if ($this->Episode->delete($id)) {
-			$this->Session->setFlash('The episode with id: ' . $id . ' has been deleted.');
+		$user = $this->Auth->user();
+		$checks = array( 
+			'is_edit_any_episode_status', 
+			'is_edit_authorized_episode_status'
+		);
+		
+		$auth = $this->Episode->Show->User->isAuthorized($this->Episode->Show->User->Role->findById($user['role_id']), $checks);
+		$episode = $this->Episode->findById($id);
+		
+		if ($auth['is_edit_any_episode_status'] || $auth['is_edit_authorized_episode_status']) {
+			if ($this->Episode->delete($id)) {
+				$this->Session->setFlash('The episode with id: ' . $id . ' has been deleted.');
+				$this->redirect(array('action' => 'index'));
+			}
+		} else {
+			$this->Session->setFlash('You do not have permission to change the status of this episode.');
 			$this->redirect(array('action' => 'index'));
 		}
 	}

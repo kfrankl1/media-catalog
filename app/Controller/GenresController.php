@@ -80,18 +80,27 @@ class GenresController extends AppController {
 			}		
 		} else {
 			$this->Session->setFlash('You do not have permission to edit this genre.');
-			$this->redirect(array('action' => 'index'));
+			$this->redirect('/genres/index');
 		}
 	}
 	
 	public function delete($id) {
-		if ($this->request->is('get')) {
-				throw new MethodNotAllowedException();
-		}
-	
-		if ($this->Genre->delete($id)) {
-			$this->Session->setFlash('The genre with id: ' . $id . ' has been deleted.');
-			$this->redirect(array('action' => 'index'));
+		$user = $this->Auth->user();
+		$checks = array('is_edit_any_genre');
+		$result = $this->Genre->Show->User->isAuthorized($this->Genre->Show->User->Role->findById($user['role_id']), $checks);
+		if ($result['is_edit_any_genre'])
+		{
+			if ($this->request->is('get')) {
+					throw new MethodNotAllowedException();
+			}
+		
+			if ($this->Genre->delete($id)) {
+				$this->Session->setFlash('The genre with id: ' . $id . ' has been deleted.');
+				$this->redirect(array('action' => 'index'));
+			}
+		} else {
+			$this->Session->setFlash('You do not have permission to edit this genre\'s status.');
+			$this->redirect('/genres/index');
 		}
 	}
 	
