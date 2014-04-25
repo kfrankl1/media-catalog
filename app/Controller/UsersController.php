@@ -2,7 +2,8 @@
 
 // app/Controller/UsersController.php
 class UsersController extends AppController {
-	public $helpers = array('Paginator');
+	public $helpers = array('Paginator', 'Js');
+	public $components = array('RequestHandler');
 	public $name = 'Users';
 	
     public function beforeFilter() {
@@ -56,7 +57,7 @@ class UsersController extends AppController {
 		if ($result['is_add_user']) {			
 			$this->set('roles', $this->User->Role->find('list'));
 			$this->set('shows', $this->User->Show->find('list'));
-			
+						
 			if ($this->request->is('post')) {
 				$this->User->create();
 				if ($this->User->save($this->request->data)) {
@@ -150,87 +151,22 @@ class UsersController extends AppController {
 		$this->Session->setFlash('You have successfully logged out!');
 		$this->redirect($this->Auth->logout());
 	}
-		
-	public function initDB() {
-		$role = $this->User->Role;
-		
-		// Allow admins to everything
-		$role->id = 1;
-		$this->Acl->allow($role, 'controllers');
 	
-		// allow support to add and edit episodes, genres, seasons, shows
-		// allow support to add users
-		$role->id = 2;
-		$this->Acl->deny($role, 'controllers');
-		$this->Acl->allow($role, 'controllers/Episodes');
-		$this->Acl->allow($role, 'controllers/Genres');
-		$this->Acl->allow($role, 'controllers/Seasons');
-		$this->Acl->allow($role, 'controllers/Shows');
-		$this->Acl->allow($role, 'controllers/Users/login');
-		$this->Acl->allow($role, 'controllers/Users/add');
-		$this->Acl->allow($role, 'controllers/Users/index');
-		$this->Acl->allow($role, 'controllers/Users/view');
-		$this->Acl->allow($role, 'controllers/Users/edit'); // need to edit self
-	
-		// allow producers to only add and edit assigned episodes and show
-		$role->id = 3;
-		$this->Acl->deny($role, 'controllers');
-		$this->Acl->allow($role, 'controllers/Episodes/add');
-		$this->Acl->allow($role, 'controllers/Episodes/edit');
-		$this->Acl->allow($role, 'controllers/Episodes/index');
-		$this->Acl->allow($role, 'controllers/Episodes/view');
-		$this->Acl->allow($role, 'controllers/Shows/index');
-		$this->Acl->allow($role, 'controllers/Shows/view');
-		$this->Acl->allow($role, 'controllers/Users/login');
-		$this->Acl->allow($role, 'controllers/Users/edit'); // need to edit self
-	
-		// allow crew to only add and edit assigned episodes
-		$role->id = 4;
-		$this->Acl->deny($role, 'controllers');
-		$this->Acl->allow($role, 'controllers/Genres/index');
-		$this->Acl->allow($role, 'controllers/Genres/view');
-		$this->Acl->allow($role, 'controllers/Seasons/index');
-		$this->Acl->allow($role, 'controllers/Seasons/view');
-		$this->Acl->allow($role, 'controllers/Shows/index');
-		$this->Acl->allow($role, 'controllers/Shows/view');
-		$this->Acl->allow($role, 'controllers/Episodes/add');
-		$this->Acl->allow($role, 'controllers/Episodes/edit');
-		$this->Acl->allow($role, 'controllers/Episodes/index');
-		$this->Acl->allow($role, 'controllers/Episodes/view');
-		$this->Acl->allow($role, 'controllers/Users/login');
-		$this->Acl->allow($role, 'controllers/Users/edit'); // need to edit self
+	public function getShowsForRole() {
 		
-		// we add an exit to avoid an ugly "missing views" error message
-		echo "all done";
-		exit;
-	}
-	
-	public function test() {
-		$checks = array(
-			'is_add_user', 
-			'is_edit_any_user',
-			'is_edit_any_user_role', 
-			'is_edit_any_role', 
-			'is_make_any_user_inactive', 
-			'is_add_show', 
-			'is_edit_any_show', 
-			'is_make_any_show_inactive', 
-			'is_add_any_episode', 
-			'is_add_authorized_episode', 
-			'is_edit_any_episode', 
-			'is_edit_authored_episode', 
-			'is_edit_settings'
-		);
-		
-		$this->set('checks', $checks);
-		$result = $this->isAuthorized($checks);
-		$this->set('result', $result);
-		
-		if ($result['is_add_user']) {
-			echo pr('True');
+		// http://www.verious.com/tutorial/dynamic-select-box-with-cake-php-2-0/
+		$role_id = $this->request->data['User']['role_id'];
+		$checks = array('is_add_any_episode', 'is_edit_any_episode', 'is_add_authorized_episode', 'is_edit_authorized_episode');
+		$auth = isAuthorized($role_id, $checks);
+		if ($checks['is_add_any_episode'] | $checks['is_edit_any_episode'] | $checks['is_edit_authorized_episode'] | $checks['is_edit_authorized_episode']) {
+			$shows = $this->Show->find('list');
 		} else {
-			echo pr('False');
+			$shows = null;
 		}
+
+		//$shows = $this->Show->find('list', array('recursive' => -1));
+		$this->set('shows', $shows); 
+		$this->layout = 'ajax';
 	}
 }
 

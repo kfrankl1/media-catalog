@@ -112,6 +112,42 @@ class ShowsController extends AppController {
 		}
 	}
 	
+	public function getByRole() {
+		$roleId = $this->request->data['User']['role_id'];
+		$checks = array('is_add_authorized_episode', 'is_edit_authorized_episode');
+		$auth = $this->Show->User->isAuthorized($this->Show->User->Role->findById($roleId), $checks);
+		
+		if ($auth['is_add_authorized_episode'] | $auth['is_edit_authorized_episode']) {
+			$shows = $this->Role->User->Show->find('list'); //, array( 'conditions' => array('Subcategory.category_id' => $category_id), 'recursive' => -1 )
+			$this->set('shows',$shows);
+			$this->layout = 'ajax';
+		} else {
+			$this->set('shows', array());
+			$this->layout = 'ajax';
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	//	// http://www.verious.com/tutorial/dynamic-select-box-with-cake-php-2-0/
+//		$role_id = $this->request->data['User']['role_id'];
+//		$checks = array('is_add_any_episode', 'is_edit_any_episode', 'is_add_authorized_episode', 'is_edit_authorized_episode');
+//		$auth = isAuthorized($role_id, $checks);
+//		if ($checks['is_add_any_episode'] | $checks['is_edit_any_episode'] | $checks['is_edit_authorized_episode'] | $checks['is_edit_authorized_episode']) {
+//			$shows = $this->Show->find('list');
+//		} else {
+//			$shows = null;
+//		}
+//
+//		//$shows = $this->Show->find('list', array('recursive' => -1));
+//		$this->set('shows', $shows); 
+//		$this->layout = 'ajax';
+	}
 }
 
 ?>

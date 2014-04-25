@@ -31,45 +31,59 @@ class User extends AppModel {
 			'email' => array(
 				'rule' => 'email',
 				'required' => 'true',
-				'message' => 'An email address is required'
+				'message' => 'An email address is required.'
 			),
 			'isUnique' => array(
 				'rule' => 'isUnique',
-				'message' => 'This email address has already been used'
+				'message' => 'This email address has already been used.'
 			)
 		),
         'first_name' => array(
             'required' => array(
                 'rule' => array('notEmpty'),
-                'message' => 'A first name is required'
+                'message' => 'A first name is required.'
             )
         ),
         'last_name' => array(
             'required' => array(
                 'rule' => array('notEmpty'),
-                'message' => 'A last name is required'
+                'message' => 'A last name is required.'
             )
         ),
         'password' => array(
             'required' => array(
                 'rule' => array('notEmpty'),
-                'message' => 'A password is required',
+                'message' => 'A password is required.',
 				'on' => 'create'
             )
-        ),
-        'role_id' => array(
+        )
+        ,'role_id' => array(
             'required' => array(
                 'rule' => array('notEmpty'),
-                'message' => 'A role is required'
+                'message' => 'A role is required.'
             )
         )
-		,'Show' => array(
-			'rule' => array('multiple', array('min' => 1)),
-			'message' => 'Please select one or more shows'
-			,'required' => 'false'
-			,'allowEmpty' => 'true'
-		)
+	//	,'Show' => array(			
+//			'rule' => array('multiple', array('min' => 1))
+//			,'message' => 'Please select one or more shows.'
+//			,'required' => 'false'
+//			,'allowEmpty' => 'true'
+//		)
     );
+	
+	/* Can probably delete... */
+	public function requireShow($check)
+	{
+		echo pr('requireShow');
+		$checks = array('is_add_authorized_episode', 'is_edit_authorized_episode');
+		$result = $this->isAuthorized($checks);
+		
+		if ($result['is_add_authorized_episode'] | $result['is_edit_authorized_episode']) {			
+			$this->set('canEditUser', true);
+		} else {
+			$this->set('canEditUser', false);
+		}
+	}
 	
 	public function parentNode() {
         if (!$this->id && empty($this->data)) {

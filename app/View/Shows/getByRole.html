@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Untitled Document</title>
+</head>
+
+<body>
+<p>App<span style="color: #339933;">::</span><span style="color: #004000;">uses</span><span style="color: #009900;">(</span><span style="color: #0000ff;">'AppController'</span><span style="color: #339933;">,</span> <span style="color: #0000ff;">'Controller'</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span></p>
+<p>
+    
+    <span style="color: #000000; font-weight: bold;">class</span> SubcategoriesController <span style="color: #000000; font-weight: bold;">extends</span> AppController <span style="color: #009900;">{</span></p>
+<p><span style="color: #000000; font-weight: bold;">public</span> <span style="color: #000000; font-weight: bold;">function</span> getByCategory<span style="color: #009900;">(</span><span style="color: #009900;">)</span> <span style="color: #009900;">{</span></p>
+<p>
+    <span style="color: #000088;">$category_id</span> <span style="color: #339933;">=</span> <span style="color: #000088;">$this</span><span style="color: #339933;">-></span><span style="color: #004000;">request</span><span style="color: #339933;">-></span><span style="color: #004000;">data</span><span style="color: #009900;">[</span><span style="color: #0000ff;">'Post'</span><span style="color: #009900;">]</span><span style="color: #009900;">[</span><span style="color: #0000ff;">'category_id'</span><span style="color: #009900;">]</span><span style="color: #339933;">;</span>    </p>
+<p><span style="color: #000088;">$subcategories</span> <span style="color: #339933;">=</span> <span style="color: #000088;">$this</span><span style="color: #339933;">-></span><span style="color: #004000;">Subcategory</span><span style="color: #339933;">-></span><span style="color: #004000;">find</span><span style="color: #009900;">(</span><span style="color: #0000ff;">'list'</span><span style="color: #339933;">,</span> <span style="color: #990000;">array</span><span style="color: #009900;">(</span>
+    <span style="color: #0000ff;">'conditions'</span> <span style="color: #339933;">=></span> <span style="color: #990000;">array</span><span style="color: #009900;">(</span><span style="color: #0000ff;">'Subcategory.category_id'</span> <span style="color: #339933;">=></span> <span style="color: #000088;">$category_id</span><span style="color: #009900;">)</span><span style="color: #339933;">,</span>
+    <span style="color: #0000ff;">'recursive'</span> <span style="color: #339933;">=></span> <span style="color: #339933;">-</span><span style="color: #cc66cc;">1</span>
+    <span style="color: #009900;">)</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span>    </p>
+<p><span style="color: #000088;">$this</span><span style="color: #339933;">-></span><span style="color: #004000;">set</span><span style="color: #009900;">(</span><span style="color: #0000ff;">'subcategories'</span><span style="color: #339933;">,</span><span style="color: #000088;">$subcategories</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span>    </p>
+<p><span style="color: #000088;">$this</span><span style="color: #339933;">-></span><span style="color: #004000;">layout</span> <span style="color: #339933;">=</span> <span style="color: #0000ff;">'ajax'</span><span style="color: #339933;">;</span>    </p>
+<p><span style="color: #009900;">}</span>
+    <span style="color: #009900;">}</span></p>
+<p>&nbsp;</p>
+
+
+<p>file path View/Subcategories/get_by_category.ctp </p>
+<p><span style="color: #000000; font-weight: bold;">< ?php</span> <span style="color: #b1b100;">foreach</span> <span style="color: #009900;">(</span><span style="color: #000088;">$subcategories</span> <span style="color: #b1b100;">as</span> <span style="color: #000088;">$key</span> <span style="color: #339933;">=></span> <span style="color: #000088;">$value</span><span style="color: #009900;">)</span><span style="color: #339933;">:</span> <span style="color: #000000; font-weight: bold;">?></span>
+</p>
+<option value="<span style="color: #000000; font-weight: bold;">< ?php</span> <span style="color: #b1b100;">echo</span> <span style="color: #000088;">$key</span><span style="color: #339933;">;</span> <span style="color: #000000; font-weight: bold;">?></span>"><span style="color: #000000; font-weight: bold;">< ?php</span> <span style="color: #b1b100;">echo</span> <span style="color: #000088;">$value</span><span style="color: #339933;">;</span> <span style="color: #000000; font-weight: bold;">?></span></option>
+<p><span style="color: #000000; font-weight: bold;">< ?php</span> <span style="color: #b1b100;">endforeach</span><span style="color: #339933;">;</span> <span style="color: #000000; font-weight: bold;">?></span>
+    
+</p>
+<p>&nbsp;</p>
+<p>Posts add.ctp</p>
+<p>&nbsp;</p>
+<p><span style="color: #000000; font-weight: bold;">< ?php</span>
+    <span style="color: #b1b100;">echo</span> <span style="color: #000088;">$this</span><span style="color: #339933;">-></span><span style="color: #004000;">Form</span><span style="color: #339933;">-></span><span style="color: #004000;">input</span><span style="color: #009900;">(</span><span style="color: #0000ff;">'category_id'</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+</p>
+<p><span style="color: #b1b100;">echo</span> <span style="color: #000088;">$this</span><span style="color: #339933;">-></span><span style="color: #004000;">Form</span><span style="color: #339933;">-></span><span style="color: #004000;">input</span><span style="color: #009900;">(</span><span style="color: #0000ff;">'subcategory_id'</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+</p>
+<p><span style="color: #b1b100;">echo</span> <span style="color: #000088;">$this</span><span style="color: #339933;">-></span><span style="color: #004000;">Form</span><span style="color: #339933;">-></span><span style="color: #004000;">input</span><span style="color: #009900;">(</span><span style="color: #0000ff;">'title'</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+    <span style="color: #000000; font-weight: bold;">?></span>
+</p>
+<p>&nbsp;</p>
+<p>Posts add.ctp</p>
+<p><span style="color: #000000; font-weight: bold;">< ?php</span>
+    <span style="color: #000088;">$this</span><span style="color: #339933;">-></span><span style="color: #004000;">Js</span><span style="color: #339933;">-></span><span style="color: #004000;">get</span><span style="color: #009900;">(</span><span style="color: #0000ff;">'#PostCategoryId'</span><span style="color: #009900;">)</span><span style="color: #339933;">-></span><span style="color: #004000;">event</span><span style="color: #009900;">(</span><span style="color: #0000ff;">'change'</span><span style="color: #339933;">,</span>
+<span style="color: #000088;">$this</span><span style="color: #339933;">-></span><span style="color: #004000;">Js</span><span style="color: #339933;">-></span><span style="color: #004000;">request</span><span style="color: #009900;">(</span></p>
+<p><span style="color: #990000;">array</span><span style="color: #009900;">(</span>
+</p>
+<p>	<span style="color: #0000ff;">'controller'</span><span style="color: #339933;">=></span><span style="color: #0000ff;">'subcategories'</span><span style="color: #339933;">,</span></p>
+<p>
+    <span style="color: #0000ff;">'action'</span><span style="color: #339933;">=></span><span style="color: #0000ff;">'getByCategory'</span></p>
+<p><span style="color: #009900;">)</span><span style="color: #339933;">,</span> </p>
+<p><span style="color: #990000;">array</span><span style="color: #009900;">(</span></p>
+<p>
+<span style="color: #0000ff;">'update'</span><span style="color: #339933;">=></span><span style="color: #0000ff;">'#PostSubcategoryId'</span><span style="color: #339933;">,</span></p>
+<p>
+    <span style="color: #0000ff;">'async'</span> <span style="color: #339933;">=></span> <span style="color: #009900; font-weight: bold;">true</span><span style="color: #339933;">,</span>
+</p>
+<p><span style="color: #0000ff;">'method'</span> <span style="color: #339933;">=></span> <span style="color: #0000ff;">'post'</span><span style="color: #339933;">,</span>
+</p>
+<p><span style="color: #0000ff;">'dataExpression'</span><span style="color: #339933;">=></span><span style="color: #009900; font-weight: bold;">true</span><span style="color: #339933;">,</span>
+</p>
+<p><span style="color: #0000ff;">'data'</span><span style="color: #339933;">=></span> <span style="color: #000088;">$this</span><span style="color: #339933;">-></span><span style="color: #004000;">Js</span><span style="color: #339933;">-></span><span style="color: #004000;">serializeForm</span><span style="color: #009900;">(</span><span style="color: #990000;">array</span><span style="color: #009900;">(</span>
+    <span style="color: #0000ff;">'isForm'</span> <span style="color: #339933;">=></span> <span style="color: #009900; font-weight: bold;">true</span><span style="color: #339933;">,</span>
+    <span style="color: #0000ff;">'inline'</span> <span style="color: #339933;">=></span> <span style="color: #009900; font-weight: bold;">true</span>
+<span style="color: #009900;">)</span><span style="color: #009900;">)</span></p>
+<p>
+    <span style="color: #009900;">)</span><span style="color: #009900;">)</span>
+</p>
+<p><span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+    <span style="color: #000000; font-weight: bold;">?></span>
+</p>
+</body>
+</html>
