@@ -15,6 +15,7 @@
         <th><?php echo $this->Paginator->sort('title'); ?></th>
         <th><?php echo $this->Paginator->sort('episode_number'); ?></th>
         <th><?php echo $this->Paginator->sort('original_air_date'); ?></th>
+        <th><?php echo $this->Paginator->sort('still_image_file'); ?></th>
         <th><?php echo $this->Paginator->sort('episode_file'); ?></th>
         <th><?php echo $this->Paginator->sort('Season.title', 'Season'); ?></th>
         <th>Actions</th>
@@ -39,7 +40,8 @@
         </td>
         <td><?php echo $episode['Episode']['episode_number']; ?></td>
         <td><?php echo $this->Time->format($episode['Episode']['original_air_date'], $timeFormat); ?></td>
-        <td><a href="<?php echo $episode['Episode']['episode_file']; ?>" title="Download <?php echo $episode['Episode']['title']; ?>" target="_blank">Download file</a></td>
+        <td><a href="<?php echo $episode['Episode']['still_image_file']; ?>" title="Download <?php echo $episode['Episode']['title']; ?> still" target="_blank">Download still</a></td>
+        <td><a href="<?php echo $episode['Episode']['episode_file']; ?>" title="Download <?php echo $episode['Episode']['title']; ?> episode" target="_blank">Download file</a></td>
         <td><?php echo $episode['Season']['title']; ?></td>
         <td>
             <?php

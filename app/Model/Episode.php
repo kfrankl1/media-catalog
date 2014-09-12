@@ -60,6 +60,12 @@ class Episode extends AppModel {
                 'message' => 'A episode file is required'
             )
         ),*/
+		'still_image_file' => array(
+            'required' => array(
+                'rule' => array('notEmpty'),
+                'message' => 'A still image file URL is required'
+            )
+        ),
         'episode_file' => array(
             'required' => array(
                 'rule' => array('notEmpty'),
