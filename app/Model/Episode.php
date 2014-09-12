@@ -60,11 +60,11 @@ class Episode extends AppModel {
                 'message' => 'A episode file is required'
             )
         ),*/
-        'show_id' => array(
+        'episode_file' => array(
             'required' => array(
                 'rule' => array('notEmpty'),
-				'message' => 'A show is required'
-            )
+                'message' => 'A episode file URL is required'				
+			)		
         ),
 		'season_id' => array(
             'required' => array(
