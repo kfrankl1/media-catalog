@@ -17,6 +17,7 @@ class ShowsController extends AppController {
 
 	public function view($id = null) {
 		$this->set('genres', $this->Show->findAssociatedGenres($id));
+		$this->set('episodes', $this->Show->Episode->find('all', array('conditions' => array('show_id' => $id))));
 		
 		if (!$id) {
 			throw new NotFoundException(__('Invalid show'));
