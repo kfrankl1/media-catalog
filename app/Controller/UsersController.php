@@ -37,7 +37,13 @@ class UsersController extends AppController {
             throw new NotFoundException(__('Invalid user'));
         }
         $this->set('user', $this->User->read(null, $id));
-		$this->set('shows', $this->User->findAssociatedShows($id));
+		$shows = $this->User->findAssociatedShowIds($id);
+		
+		$this->set('shows', $this->User->Show->find('list', array(
+			'fields' => array('Show.title'),
+			'conditions' => array('Show.id' => $shows),
+			'recursive' => -1
+		)));
 		
 		$user = $this->Auth->user();
 		$checks = array('is_edit_any_user', 'is_edit_any_user_role', 'is_edit_any_user_shows');

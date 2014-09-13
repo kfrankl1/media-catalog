@@ -81,13 +81,18 @@ class EpisodesController extends AppController {
 			$shows = $this->Episode->Show->find('list');
 			$allow = true;
 		} else if ($auth['is_add_authorized_episode']) {
-			$shows = $this->Episode->Show->User->findAssociatedShows($user['id']);
+			$shows = $this->Episode->Show->User->findAssociatedShowIds($user['id']);
 			$allow = true;
 		} else {
 			$shows = null;
 		}
 		
-		$this->set('shows', $shows); // this array is just titles, not IDs
+		$this->set('shows', $this->Episode->Show->find('list', array(
+			'fields' => array('Show.title'),
+			'conditions' => array('Show.id' => $shows),
+			'recursive' => -1
+		)));
+		
 		$this->set('seasons', $this->Episode->Season->find('list'));
 		
 		if ($allow) {

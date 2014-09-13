@@ -329,7 +329,7 @@ class User extends AppModel {
 			return true;
 		} else if ($auth['is_edit_authorized_episode_status']) {
 			// find all of your authorized shows and see if episode id matches
-			$shows = $this->Episode->Show->User->findAssociatedShows($user['id']);
+			$shows = $this->Episode->Show->User->findAssociatedShowIds($user['id']);
 			foreach ($shows as $show):
 				if ($show['id'] === $episode['Show']['id']) {
 					return true;
