@@ -6,6 +6,7 @@
 	echo $this->Form->input('title');
 	echo $this->Form->input('tagline');
 	echo $this->Form->input('description');
+	echo $this->Form->input('logo_image_file');
 ?>
     <!--	Adding 'required' to ShowGenre adds required class to all options.
             Manually creating the label makes for a better UI. -->

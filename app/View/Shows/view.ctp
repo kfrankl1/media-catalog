@@ -1,6 +1,11 @@
 <!-- File: /app/View/Shows/view.ctp -->
 
 <h1><?php echo h($show['Show']['title']); ?></h1>
+<p>
+    <a href="<?php echo $show['Show']['logo_image_file']; ?>" title="Download <?php echo $show['Show']['title']; ?> logo" target="_blank">
+        <img src="<?php echo $show['Show']['logo_image_file']; ?>" alt="<?php echo $show['Show']['title']; ?> logo" width="300" />
+    </a>
+</p>
 <p>Tagline: <?php echo $show['Show']['tagline']; ?></p>
 <p>Description: <?php echo $show['Show']['description']; ?></p>
 <p>Genre(s): <?php echo $this->Text->toList($genres); ?></p>

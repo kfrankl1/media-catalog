@@ -13,6 +13,7 @@
         <th><?php echo $this->Paginator->sort('title'); ?></th>
         <th>Tagline</th>
         <th>Description</th>
+        <th>Logo</th>
         <th>Actions</th>
         <th><?php echo $this->Paginator->sort('modified'); ?></th>
         <th><?php echo $this->Paginator->sort('modified_by'); ?></th>
@@ -29,6 +30,11 @@
         </td>
         <td><?php echo $show['Show']['tagline']; ?></td>
         <td><?php echo $show['Show']['description']; ?></td>
+        <td>
+        	<a href="<?php echo $show['Show']['logo_image_file']; ?>" title="Download <?php echo $show['Show']['title']; ?> logo" target="_blank">
+            	Download logo
+            </a>
+        </td>
         <td>
             <?php if ($canEditShowStatus) {
 					echo $this->Form->postLink(

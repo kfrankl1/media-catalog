@@ -54,6 +54,12 @@ class Show extends AppModel {
                 'message' => 'A description is required'
             )
         )
+        ,'logo_image_file' => array(
+            'required' => array(
+                'rule' => array('notEmpty'),
+                'message' => 'A logo URL is required'
+            )
+        )
 		,'Genre' => array(
 			'rule' => array('multiple', array('min' => 1)),
 			'message' => 'Please select one or more genres'
